@@ -1,0 +1,22 @@
+{
+  "name": "@kilima/shared",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Cross-cutting building blocks for every service: logger, typed config, errors (KP-ENG-11 §2).",
+  "exports": {
+    ".": "./src/index.ts",
+    "./logger": "./src/logger.ts",
+    "./config": "./src/config.ts",
+    "./errors": "./src/errors.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "pino": "^10.3.1",
+    "zod": "^4.6.5"
+  }
+}

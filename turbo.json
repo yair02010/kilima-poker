@@ -1,0 +1,10 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "stream",
+  "tasks": {
+    "lint": { "dependsOn": [] },
+    "typecheck": { "dependsOn": ["^typecheck"] },
+    "test": { "dependsOn": [], "outputs": ["coverage/**"] },
+    "dev": { "cache": false, "persistent": true }
+  }
+}
