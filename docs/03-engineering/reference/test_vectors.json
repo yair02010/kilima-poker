@@ -1,0 +1,705 @@
+{
+ "version": "1.0",
+ "notation": "rank AKQJT98765432 + suit shdc, e.g. 'Ah', 'Td'; amounts in minor units",
+ "evaluation": [
+  {
+   "game": "nlhe",
+   "hole": "Ah Kh",
+   "board": "Qh Jh Th 2c 3d",
+   "category": "straight_flush",
+   "best5": "Ah Kh Qh Jh Th"
+  },
+  {
+   "game": "nlhe",
+   "hole": "5c 4d",
+   "board": "Ah 2s 3h 9c Kd",
+   "category": "straight",
+   "best5": "5c 4d Ah 2s 3h"
+  },
+  {
+   "game": "nlhe",
+   "hole": "9s 9h",
+   "board": "9d 9c 2s 2h Kd",
+   "category": "four_of_a_kind",
+   "best5": "9s 9h 9d 9c Kd"
+  },
+  {
+   "game": "nlhe",
+   "hole": "Ks Kh",
+   "board": "Kd 2s 2h 2d 7c",
+   "category": "full_house",
+   "best5": "Ks Kh Kd 2s 2h"
+  },
+  {
+   "game": "nlhe",
+   "hole": "As 3s",
+   "board": "Ks 8s 2s Qh Qd",
+   "category": "flush",
+   "best5": "As 3s Ks 8s 2s"
+  },
+  {
+   "game": "nlhe",
+   "hole": "7c 7d",
+   "board": "Ah Ad 7s 2c 3c",
+   "category": "full_house",
+   "best5": "7c 7d Ah Ad 7s"
+  },
+  {
+   "game": "nlhe",
+   "hole": "Qc Jd",
+   "board": "Ah Kh 5c 5d 2s",
+   "category": "pair",
+   "best5": "Qc Ah Kh 5c 5d"
+  },
+  {
+   "game": "nlhe",
+   "hole": "2c 3d",
+   "board": "As Kh Qd Jc 9s",
+   "category": "high_card",
+   "best5": "As Kh Qd Jc 9s"
+  },
+  {
+   "game": "nlhe",
+   "hole": "Tc Td",
+   "board": "Ts 4h 4d 4c Kd",
+   "category": "full_house",
+   "best5": "Tc Td Ts 4h 4d"
+  },
+  {
+   "game": "nlhe",
+   "hole": "Ah Qh",
+   "board": "Kh Jh 9h 8h 2h",
+   "category": "flush",
+   "best5": "Ah Qh Kh Jh 9h"
+  },
+  {
+   "game": "plo4",
+   "hole": "Ah Kh 2c 3d",
+   "board": "Qh Jh Th 9s 8s",
+   "category": "straight_flush",
+   "best5": "Ah Kh Qh Jh Th"
+  },
+  {
+   "game": "plo4",
+   "hole": "As Ad Ac 2h",
+   "board": "Kd Ks 7h 8c 9d",
+   "category": "two_pair",
+   "best5": "As Ad Kd Ks 9d"
+  },
+  {
+   "game": "plo4",
+   "hole": "Ah 2c 3d 4s",
+   "board": "Kh Qh Jh Th 5c",
+   "category": "high_card",
+   "best5": "Ah 4s Kh Qh Jh"
+  },
+  {
+   "game": "plo4",
+   "hole": "As Ks 2d 3c",
+   "board": "Qs Js 8s 7h 6d",
+   "category": "flush",
+   "best5": "As Ks Qs Js 8s"
+  },
+  {
+   "game": "plo4",
+   "hole": "Kc Kd 4h 5h",
+   "board": "Ks Kh 7c 2d 9s",
+   "category": "four_of_a_kind",
+   "best5": "Kc Kd Ks Kh 9s"
+  },
+  {
+   "game": "plo5",
+   "hole": "Ah Ad 7c 8c 9s",
+   "board": "Ts Jd 2h 3c 6c",
+   "category": "pair",
+   "best5": "Ah Ad Jd Ts 6c"
+  },
+  {
+   "game": "plo6",
+   "hole": "Ah Ks Qd Jc 3h 2h",
+   "board": "Th 9h 8h 4c 4d",
+   "category": "flush",
+   "best5": "Ah 3h Th 9h 8h"
+  },
+  {
+   "game": "shortdeck",
+   "hole": "Ah 6c",
+   "board": "7d 8s 9h Kc Kd",
+   "category": "straight",
+   "best5": "9h 8s 7d 6c Ah"
+  },
+  {
+   "game": "shortdeck",
+   "hole": "Ks Kh",
+   "board": "Kd 8s 9h Td Jc",
+   "category": "three_of_a_kind",
+   "best5": "Ks Kh Kd Jc Td"
+  },
+  {
+   "game": "shortdeck",
+   "hole": "As 9s",
+   "board": "Ks 7s 6s 9h 9d",
+   "category": "flush",
+   "best5": "As Ks 9s 7s 6s"
+  }
+ ],
+ "comparison": [
+  {
+   "game": "nlhe",
+   "board": "Jh 5h Th 8c Ac",
+   "hands": {
+    "A": "Ah Kd",
+    "B": "As Qd"
+   },
+   "winners": [
+    "A"
+   ],
+   "note": "pair of aces, kicker K beats Q"
+  },
+  {
+   "game": "nlhe",
+   "board": "2s 3s 4s 5d 6d",
+   "hands": {
+    "A": "Ah Kh",
+    "B": "7c 7d"
+   },
+   "winners": [
+    "B"
+   ],
+   "note": "7-high straight beats 6-high board straight"
+  },
+  {
+   "game": "nlhe",
+   "board": "Ah Kh Qh Jh Th",
+   "hands": {
+    "A": "2c 3c",
+    "B": "4d 5d"
+   },
+   "winners": [
+    "A",
+    "B"
+   ],
+   "note": "royal flush on board: split"
+  },
+  {
+   "game": "nlhe",
+   "board": "Ks Kd 7h 7c 2d",
+   "hands": {
+    "A": "Ac 3c",
+    "B": "Ad 4d"
+   },
+   "winners": [
+    "A",
+    "B"
+   ],
+   "note": "two pair, ace kicker: split"
+  },
+  {
+   "game": "nlhe",
+   "board": "9h 9d 5s 5c 2h",
+   "hands": {
+    "A": "Ts 8s",
+    "B": "Th 3h"
+   },
+   "winners": [
+    "A",
+    "B"
+   ],
+   "note": "kicker T plays for both"
+  },
+  {
+   "game": "plo4",
+   "board": "Ah Kh 7c 2d 9s",
+   "hands": {
+    "A": "Qh Jh 3s 4s",
+    "B": "As Ad Kc Kd"
+   },
+   "winners": [
+    "B"
+   ],
+   "note": "two hearts on board only: no flush for A; B has trips aces"
+  },
+  {
+   "game": "shortdeck",
+   "board": "Kh Kd 8s 9c Tc",
+   "hands": {
+    "A": "Ks Qc",
+    "B": "Js 7d"
+   },
+   "winners": [
+    "A"
+   ],
+   "note": "trips beat straight in short deck"
+  },
+  {
+   "game": "shortdeck",
+   "board": "As Ks 9s 9h 7d",
+   "hands": {
+    "A": "Qs 6s",
+    "B": "9d 7h"
+   },
+   "winners": [
+    "A"
+   ],
+   "note": "flush beats full house in short deck"
+  }
+ ],
+ "betting": [
+  {
+   "case": "PLO 50/100, 6-max, first to act pre-flop: pot-size raise",
+   "structure": "PL",
+   "blinds": [
+    50,
+    100
+   ],
+   "actions": [],
+   "legal": {
+    "fold": true,
+    "check": false,
+    "call": 100,
+    "raise": {
+     "min_to": 200,
+     "max_to": 350
+    },
+    "bet_or_raise": "raise"
+   }
+  },
+  {
+   "case": "PLO: after a pot raise to 350, next player's pot raise",
+   "structure": "PL",
+   "blinds": [
+    50,
+    100
+   ],
+   "actions": [
+    [
+     "raise",
+     350
+    ]
+   ],
+   "legal": {
+    "fold": true,
+    "check": false,
+    "call": 350,
+    "raise": {
+     "min_to": 600,
+     "max_to": 1200
+    },
+    "bet_or_raise": "raise"
+   }
+  },
+  {
+   "case": "NL 50/100: open 300, 3-bet to 900; minimum 4-bet is to 1500",
+   "structure": "NL",
+   "blinds": [
+    50,
+    100
+   ],
+   "actions": [
+    [
+     "raise",
+     300
+    ],
+    [
+     "raise",
+     900
+    ]
+   ],
+   "legal": {
+    "fold": true,
+    "check": false,
+    "call": 900,
+    "raise": {
+     "min_to": 1500,
+     "max_to": 10000
+    },
+    "bet_or_raise": "raise"
+   }
+  },
+  {
+   "case": "NL: open 1000, short all-in to 1400 (incomplete raise); opener may only call or fold",
+   "structure": "NL",
+   "blinds": [
+    50,
+    100
+   ],
+   "stacks": [
+    10000,
+    10000,
+    10000,
+    1400
+   ],
+   "actions": [
+    [
+     "raise",
+     1000
+    ],
+    [
+     "allin",
+     null
+    ],
+    [
+     "fold",
+     null
+    ],
+    [
+     "fold",
+     null
+    ]
+   ],
+   "legal": {
+    "fold": true,
+    "check": false,
+    "call": 400,
+    "raise": null
+   }
+  },
+  {
+   "case": "Heads-up NL: button posts SB and acts first pre-flop",
+   "structure": "NL",
+   "blinds": [
+    50,
+    100
+   ],
+   "actions": [],
+   "to_act_index": 0,
+   "legal": {
+    "fold": true,
+    "check": false,
+    "call": 50,
+    "raise": {
+     "min_to": 200,
+     "max_to": 10000
+    },
+    "bet_or_raise": "raise"
+   }
+  },
+  {
+   "case": "NL 3-handed: limp, SB completes; big blind has the option",
+   "structure": "NL",
+   "blinds": [
+    50,
+    100
+   ],
+   "actions": [
+    [
+     "call",
+     null
+    ],
+    [
+     "call",
+     null
+    ]
+   ],
+   "legal": {
+    "fold": false,
+    "check": true,
+    "call": null,
+    "raise": {
+     "min_to": 200,
+     "max_to": 10000
+    },
+    "bet_or_raise": "raise"
+   }
+  },
+  {
+   "case": "Tournament big-blind ante: BB posts 100 blind + 100 ante (dead)",
+   "structure": "NL",
+   "blinds": [
+    50,
+    100
+   ],
+   "bb_ante": 100,
+   "pot_before_action": 250,
+   "legal": {
+    "fold": true,
+    "check": false,
+    "call": 100,
+    "raise": {
+     "min_to": 200,
+     "max_to": 10000
+    },
+    "bet_or_raise": "raise"
+   }
+  }
+ ],
+ "pots": [
+  {
+   "case": "Three all-ins of different sizes",
+   "contrib": {
+    "1": 1000,
+    "2": 3000,
+    "3": 5000,
+    "4": 5000
+   },
+   "folded": [],
+   "returned": {},
+   "pots": [
+    {
+     "amount": 4000,
+     "eligible": [
+      1,
+      2,
+      3,
+      4
+     ]
+    },
+    {
+     "amount": 6000,
+     "eligible": [
+      2,
+      3,
+      4
+     ]
+    },
+    {
+     "amount": 4000,
+     "eligible": [
+      3,
+      4
+     ]
+    }
+   ]
+  },
+  {
+   "case": "Uncalled bet returned",
+   "contrib": {
+    "1": 200,
+    "2": 200,
+    "3": 1500
+   },
+   "folded": [],
+   "returned": {
+    "3": 1300
+   },
+   "pots": [
+    {
+     "amount": 600,
+     "eligible": [
+      1,
+      2,
+      3
+     ]
+    }
+   ]
+  },
+  {
+   "case": "Folded player's chips stay in the pots they reached",
+   "contrib": {
+    "1": 500,
+    "2": 2000,
+    "3": 2000,
+    "4": 800
+   },
+   "folded": [
+    4
+   ],
+   "returned": {},
+   "pots": [
+    {
+     "amount": 2000,
+     "eligible": [
+      1,
+      2,
+      3
+     ]
+    },
+    {
+     "amount": 3300,
+     "eligible": [
+      2,
+      3
+     ]
+    }
+   ]
+  }
+ ],
+ "rake": [
+  {
+   "case": "5 % rake capped at 300 over three pots; seat 1 wins the main pot, seats 2 and 3 split side pot 1, seat 3 wins side pot 2",
+   "pots": [
+    {
+     "amount": 4000,
+     "eligible": [
+      1,
+      2,
+      3,
+      4
+     ]
+    },
+    {
+     "amount": 6000,
+     "eligible": [
+      2,
+      3,
+      4
+     ]
+    },
+    {
+     "amount": 4000,
+     "eligible": [
+      3,
+      4
+     ]
+    }
+   ],
+   "rake_bp": 500,
+   "cap": 300,
+   "saw_flop": true,
+   "rake": 300,
+   "rake_per_pot": [
+    86,
+    129,
+    85
+   ],
+   "winners_by_strength": "1 > (2 = 3) > 4",
+   "button_order": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "won": {
+    "1": 3914,
+    "2": 2936,
+    "3": 6850
+   }
+  },
+  {
+   "case": "No flop, no drop",
+   "pots": [
+    {
+     "amount": 350,
+     "eligible": [
+      1,
+      2
+     ]
+    }
+   ],
+   "rake_bp": 500,
+   "cap": 300,
+   "saw_flop": false,
+   "rake": 0,
+   "rake_per_pot": [
+    0
+   ]
+  },
+  {
+   "case": "Split pot with an odd unit: goes to the first winner left of the button",
+   "pots": [
+    {
+     "amount": 1001,
+     "eligible": [
+      1,
+      2
+     ]
+    }
+   ],
+   "rake_bp": 500,
+   "cap": 300,
+   "saw_flop": true,
+   "rake": 50,
+   "rake_per_pot": [
+    50
+   ],
+   "button_order": [
+    2,
+    1
+   ],
+   "won": {
+    "2": 476,
+    "1": 475
+   }
+  }
+ ],
+ "spin": [
+  {
+   "case": "Illustrative Summit Spins paytable, buy-in 1000 (fee included in multiplier edge)",
+   "buy_in": 1000,
+   "fee": 0,
+   "paytable": [
+    {
+     "multiplier": 2,
+     "per_million": 750000,
+     "split": [
+      100
+     ]
+    },
+    {
+     "multiplier": 3,
+     "per_million": 180000,
+     "split": [
+      100
+     ]
+    },
+    {
+     "multiplier": 5,
+     "per_million": 50000,
+     "split": [
+      100
+     ]
+    },
+    {
+     "multiplier": 10,
+     "per_million": 15000,
+     "split": [
+      100
+     ]
+    },
+    {
+     "multiplier": 25,
+     "per_million": 4000,
+     "split": [
+      80,
+      10,
+      10
+     ]
+    },
+    {
+     "multiplier": 100,
+     "per_million": 900,
+     "split": [
+      80,
+      10,
+      10
+     ]
+    },
+    {
+     "multiplier": 1000,
+     "per_million": 100,
+     "split": [
+      80,
+      10,
+      10
+     ]
+    }
+   ],
+   "rtp_exact": "91/100",
+   "rtp": 0.91
+  }
+ ],
+ "frequency": {
+  "standard_52": {
+   "four_of_a_kind": 624,
+   "full_house": 3744,
+   "three_of_a_kind": 54912,
+   "two_pair": 123552,
+   "pair": 1098240,
+   "straight_flush": 40,
+   "straight": 10200,
+   "flush": 5108,
+   "high_card": 1302540
+  },
+  "shortdeck_36": {
+   "four_of_a_kind": 288,
+   "full_house": 1728,
+   "three_of_a_kind": 16128,
+   "two_pair": 36288,
+   "pair": 193536,
+   "straight_flush": 24,
+   "straight": 6120,
+   "flush": 480,
+   "high_card": 122400
+  }
+ }
+}
