@@ -1,0 +1,17 @@
+# Documentation owners — reviews are requested automatically for pull requests touching these paths.
+/00-governance/                         @programme-director
+/01-product/                            @head-of-product
+/02-project/                            @programme-director
+/03-engineering/                        @cto
+/03-engineering/06-poker-game-engine.md @tech-lead-game @compliance-officer
+/03-engineering/08-wallet-ledger.md     @tech-lead-payments @cfo
+/03-engineering/13-rng-certification.md @cto @compliance-officer
+/03-engineering/reference/              @tech-lead-game
+/03-engineering/specs/                  @tech-lead-platform
+/04-quality/                            @head-of-qa
+/05-security/                           @ciso
+/06-operations/                         @sre-lead
+/07-legal-compliance/                   @compliance-officer @legal-counsel
+/07-legal-compliance/07-house-rules.md  @head-of-poker @compliance-officer
+/08-finance/                            @cfo
+/tools/                                 @cto

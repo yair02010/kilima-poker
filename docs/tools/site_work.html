@@ -1,0 +1,498 @@
+<style>
+:root{
+  --t-GAM:#2F63D0; --t-PLT:#0F8A7A; --t-PAY:#B07A00; --t-TRU:#A8438F; --t-CLI:#D0582D; --t-DAT:#6553C9; --t-SRE:#4F5B78; --t-QA:#2E7D32; --t-OPS:#8D6E63;
+  --s-not:#8A93A8; --s-prog:#2F63D0; --s-block:#C0392B; --s-review:#8A3B9E; --s-done:#1E7F4F;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --t-GAM:#86A9FF; --t-PLT:#4FD1BD; --t-PAY:#F2C35B; --t-TRU:#E08BCB; --t-CLI:#FF9A6E; --t-DAT:#A99BFF; --t-SRE:#A4AEC6; --t-QA:#7FD08A; --t-OPS:#C9A79A;
+  --s-not:#7F8AA3; --s-prog:#86A9FF; --s-block:#FF8A7A; --s-review:#D39BE3; --s-done:#5FD39B;}}
+:root[data-theme="dark"]{
+  --t-GAM:#86A9FF; --t-PLT:#4FD1BD; --t-PAY:#F2C35B; --t-TRU:#E08BCB; --t-CLI:#FF9A6E; --t-DAT:#A99BFF; --t-SRE:#A4AEC6; --t-QA:#7FD08A; --t-OPS:#C9A79A;
+  --s-not:#7F8AA3; --s-prog:#86A9FF; --s-block:#FF8A7A; --s-review:#D39BE3; --s-done:#5FD39B;}
+.work{max-width:1180px}
+.work .doc-head{margin-bottom:18px}
+.live{display:inline-flex;align-items:center;gap:6px;font:500 12px/1 var(--f-body);color:var(--muted)}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--s-not)}
+.live.on i{background:var(--s-done);box-shadow:0 0 0 3px color-mix(in srgb,var(--s-done) 25%,transparent)}
+.wtabs{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+.wtabs a{font:500 13.5px/1 var(--f-body);padding:8px 12px;border:1px solid var(--rule);border-radius:999px;color:var(--ink-2);background:var(--surface)}
+.wtabs a.on{background:var(--ink);color:var(--bg);border-color:var(--ink);text-decoration:none}
+.wtabs a:hover{text-decoration:none;border-color:var(--accent)}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:18px 0}
+.kpi{padding:12px 14px;border:1px solid var(--rule);border-radius:10px;background:var(--surface)}
+.kpi b{display:block;font:700 26px/1.1 var(--f-display);font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px;color:var(--muted)}
+.kpi.alert b{color:var(--s-block)}
+.wgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:start}
+.panel{border:1px solid var(--rule);border-radius:10px;background:var(--surface);padding:14px 16px}
+.panel h3{margin:0 0 10px;font:600 15px/1.3 var(--f-body)}
+.panel h3 small{font-weight:400;color:var(--muted);margin-left:6px}
+.ms{display:grid;grid-template-columns:52px minmax(0,1fr) 150px 64px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--rule);font-size:13.5px}
+.ms:last-child{border-bottom:0}
+.ms code{font-size:12px}
+.bar{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden;display:flex}
+.bar i{display:block;height:100%}
+.ms .pct{text-align:right;font-variant-numeric:tabular-nums;color:var(--muted)}
+.ms .dates{font-size:12px;color:var(--muted)}
+.chip{display:inline-flex;align-items:center;gap:5px;font:500 11.5px/1 var(--f-body);padding:4px 7px;border-radius:999px;background:var(--surface-2);color:var(--ink-2);white-space:nowrap}
+.chip.team::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--tc)}
+.st{display:inline-flex;align-items:center;gap:6px;font:600 11.5px/1 var(--f-body);white-space:nowrap}
+.st::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--sc)}
+.st-not_started{--sc:var(--s-not)} .st-in_progress{--sc:var(--s-prog)} .st-blocked{--sc:var(--s-block)} .st-in_review{--sc:var(--s-review)} .st-done{--sc:var(--s-done)}
+.st-todo{--sc:var(--s-not)} .st-doing{--sc:var(--s-prog)} .st-review{--sc:var(--s-review)}
+.wlist{list-style:none;margin:0;padding:0}
+.wlist li{display:flex;gap:10px;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--rule);font-size:13.5px}
+.wlist li:last-child{border-bottom:0}
+.wp-code{font:500 12px var(--f-mono);color:var(--accent);flex:none;min-width:48px;cursor:pointer;background:none;border:0;padding:0}
+.wlist .grow{flex:1;min-width:0}
+.empty{color:var(--muted);font-size:13.5px;padding:6px 0}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 14px;font-size:13px;color:var(--muted)}
+.filters select,.filters input,.wform select,.wform input,.wform textarea{font:inherit;font-size:13.5px;color:var(--ink);background:var(--surface);border:1px solid var(--rule);border-radius:6px;height:32px;padding:0 8px}
+.wform textarea{height:auto;min-height:70px;padding:8px;width:100%;resize:vertical}
+.board{display:grid;grid-template-columns:repeat(5,minmax(200px,1fr));gap:10px;overflow-x:auto;padding-bottom:8px}
+.col{background:var(--surface-2);border-radius:10px;padding:8px;min-height:120px}
+.col h4{margin:4px 4px 8px;font:600 12px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
+.card-wp{display:block;width:100%;text-align:left;background:var(--surface);border:1px solid var(--rule);border-left:3px solid var(--tc);border-radius:8px;padding:9px 10px;margin-bottom:8px;cursor:pointer;color:var(--ink);font:inherit}
+.card-wp:hover{border-color:var(--accent);border-left-color:var(--tc)}
+.card-wp .top-l{display:flex;justify-content:space-between;gap:6px;font:500 11.5px var(--f-mono);color:var(--muted)}
+.card-wp .ttl{font-size:13.2px;line-height:1.35;margin:4px 0 6px}
+.card-wp .foot-l{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:11.5px;color:var(--muted)}
+.mini{height:4px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin-top:6px}
+.mini i{display:block;height:100%;background:var(--sc,var(--s-prog))}
+.who{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--ink-2)}
+.who img{width:18px;height:18px;border-radius:50%}
+.gantt{overflow-x:auto;border:1px solid var(--rule);border-radius:10px;background:var(--surface)}
+.g-inner{min-width:980px}
+.g-row{display:grid;grid-template-columns:270px repeat(18,minmax(0,1fr));align-items:center;border-bottom:1px solid var(--rule);min-height:30px;position:relative}
+.g-row:last-child{border-bottom:0}
+.g-head{position:sticky;top:0;background:var(--surface-2);font:600 11px/1 var(--f-body);color:var(--muted);letter-spacing:.04em;min-height:34px}
+.g-head div{padding:6px 2px;text-align:center}
+.g-lab{padding:5px 10px;font-size:12.5px;display:flex;gap:8px;align-items:baseline;min-width:0;background:none;border:0;color:var(--ink);text-align:left;cursor:pointer;font-family:inherit}
+.g-lab code{font-size:11.5px;color:var(--accent);flex:none}
+.g-lab span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.g-ms{background:var(--surface-2);font:600 12px var(--f-body);color:var(--ink-2)}
+.g-ms .g-lab{cursor:default;font-weight:600}
+.g-bar{height:16px;border-radius:5px;background:color-mix(in srgb,var(--tc) 22%,transparent);border:1.5px solid var(--tc);position:relative;overflow:hidden}
+.g-bar i{position:absolute;inset:0 auto 0 0;background:var(--tc);opacity:.85}
+.g-bar.blocked{border-color:var(--s-block);border-style:dashed}
+.g-today{position:absolute;top:0;bottom:0;width:2px;background:var(--gold);pointer-events:none;z-index:2}
+.legend-row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.teams{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.tcard{border:1px solid var(--rule);border-top:3px solid var(--tc);border-radius:10px;background:var(--surface);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.tcard h3{margin:0;font:600 16px/1.2 var(--f-body)}
+.tcard h3 code{font-size:12px;color:var(--muted);margin-left:6px}
+.tcard p{margin:0;font-size:13px;color:var(--muted)}
+.tcard .bar{height:6px}
+.people{display:flex;flex-wrap:wrap;gap:6px}
+.person{display:inline-flex;align-items:center;gap:5px;padding:3px 8px 3px 3px;border-radius:999px;background:var(--surface-2);font-size:12.5px}
+.person img{width:20px;height:20px;border-radius:50%}
+.person button{border:0;background:none;color:var(--muted);cursor:pointer;padding:0 0 0 2px;font-size:14px;line-height:1}
+.linkbtn{border:0;background:none;color:var(--accent);cursor:pointer;font:inherit;font-size:12.5px;padding:0}
+.gate{margin-bottom:18px}
+.gate-h{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:8px}
+.gate-h h3{margin:0}
+.gate-h .bar{flex:1;max-width:260px}
+.gsec{font:600 12px/1 var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--gold);margin:14px 0 6px}
+.gitem{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--rule);font-size:13.8px}
+.gitem:last-child{border-bottom:0}
+.gitem input{margin-top:3px;width:16px;height:16px;accent-color:var(--s-done)}
+.gitem .by{font-size:12px;color:var(--muted);white-space:nowrap}
+.gitem.done .txt{color:var(--muted);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 60%,transparent)}
+.heat{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:24px;border-radius:5px;font:600 12.5px var(--f-mono);color:#fff}
+.h-hi{background:#C0392B} .h-md{background:#C58A00} .h-lo{background:#2E7D32}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);z-index:60;background:var(--surface);border-left:1px solid var(--rule);box-shadow:-20px 0 60px rgba(0,0,0,.25);display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px)}
+.drawer header{padding:16px 18px 12px;border-bottom:1px solid var(--rule)}
+.drawer header .row{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.drawer h2{margin:6px 0 4px;font:700 20px/1.2 var(--f-display)}
+.drawer .body{overflow:auto;padding:14px 18px 30px;display:flex;flex-direction:column;gap:14px}
+.x{border:1px solid var(--rule);background:var(--surface);color:var(--ink);border-radius:6px;height:32px;padding:0 10px;cursor:pointer;font:inherit}
+.wform{display:grid;grid-template-columns:120px minmax(0,1fr);gap:8px 12px;align-items:center;font-size:13.5px}
+.wform label{color:var(--muted)}
+.wform .full{grid-column:1/-1}
+.btn{height:34px;padding:0 14px;border-radius:7px;border:0;background:var(--accent);color:var(--accent-ink);font:600 13.5px var(--f-body);cursor:pointer}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--rule)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.kv{font-size:13.5px;color:var(--ink-2)}
+.pb{border:1px solid var(--rule);border-radius:10px;padding:12px 14px;background:var(--bg)}
+.pb h3{margin:0 0 4px;font:600 15px var(--f-body)}
+.pb .sl{border-top:1px solid var(--rule);padding:10px 0 4px}
+.pb .sl:first-of-type{border-top:0}
+.pb .sl-h{display:flex;gap:8px;align-items:baseline;font-size:13.5px}
+.pb .sl-h b{flex:1}
+.pb .ok{color:var(--s-done);font-weight:600}
+.pb details summary{cursor:pointer;font-size:12.5px;color:var(--muted);margin:4px 0}
+.pb pre{max-height:320px;overflow:auto;white-space:pre-wrap;font-size:12px}
+.cmd{font:500 12.5px var(--f-mono);background:var(--code-bg,rgba(127,127,127,.12));padding:2px 6px;border-radius:4px;white-space:nowrap}
+.nextup .cmd{display:inline-block;margin-top:4px}
+.kv b{color:var(--muted);font-weight:500;margin-right:6px}
+.tasks{list-style:none;margin:0;padding:0}
+.tasks li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--rule);font-size:13.5px}
+.tasks li select{font:inherit;font-size:12px;height:26px;border:1px solid var(--rule);border-radius:5px;background:var(--surface);color:var(--ink)}
+.tasks .meta-t{font-size:11.5px;color:var(--muted)}
+.picker{position:relative}
+.picker ul{position:absolute;z-index:5;left:0;right:0;top:100%;list-style:none;margin:2px 0 0;padding:4px;background:var(--surface);border:1px solid var(--rule);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.picker li button{display:flex;gap:8px;align-items:center;width:100%;border:0;background:none;padding:6px 8px;border-radius:6px;cursor:pointer;color:var(--ink);font:inherit;font-size:13px;text-align:left}
+.picker li button:hover{background:var(--accent-soft)}
+.picker img{width:20px;height:20px;border-radius:50%}
+.note{font-size:12.5px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:70;background:var(--ink);color:var(--bg);padding:9px 14px;border-radius:8px;font-size:13.5px}
+.sprint-cols{display:grid;grid-template-columns:repeat(4,minmax(180px,1fr));gap:10px;overflow-x:auto}
+.task-card{background:var(--surface);border:1px solid var(--rule);border-radius:8px;padding:8px 10px;margin-bottom:8px;font-size:13px}
+.task-card .wp-link{font:500 11.5px var(--f-mono);color:var(--accent);background:none;border:0;padding:0;cursor:pointer}
+.addtask{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.addtask input[type=text]{flex:1;min-width:180px}
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.wgrid{grid-template-columns:minmax(0,1fr)}.teams{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.teams{grid-template-columns:minmax(0,1fr)}.ms{grid-template-columns:44px minmax(0,1fr) 60px}.ms .dates{display:none}.wform{grid-template-columns:minmax(0,1fr)}}
+</style>
+
+<script type="application/json" id="work-baseline">{{BASELINE}}</script>
+
+<article class="doc work" id="work" data-title="Delivery overview" data-docid="WORK" data-section="Delivery" hidden>
+  <header class="doc-head"><p class="crumb">Delivery</p><div class="idline"><span class="docid">WORK</span><span class="live" data-live><i></i><span>Baseline plan (read-only)</span></span></div>
+  <h1>Delivery overview</h1><p class="sub">Where the Kilima build stands: milestones, gates, what is blocked and what can start next. Updated live by the team.</p>
+  <nav class="wtabs" data-tabs></nav></header>
+  <div data-view="overview"></div>
+</article>
+<article class="doc work" id="work-plan" data-title="Plan and timeline" data-docid="WORK" data-section="Delivery" hidden>
+  <header class="doc-head"><p class="crumb">Delivery</p><div class="idline"><span class="docid">WORK</span><span class="live" data-live><i></i><span>Baseline plan (read-only)</span></span></div>
+  <h1>Plan and timeline</h1><p class="sub">Every work package from the Build Plan (KP-HBK-06) on the programme calendar. Bars fill with progress; the gold line is today.</p>
+  <nav class="wtabs" data-tabs></nav></header>
+  <div data-view="plan"></div>
+</article>
+<article class="doc work" id="work-board" data-title="Work board" data-docid="WORK" data-section="Delivery" hidden>
+  <header class="doc-head"><p class="crumb">Delivery</p><div class="idline"><span class="docid">WORK</span><span class="live" data-live><i></i><span>Baseline plan (read-only)</span></span></div>
+  <h1>Work board</h1><p class="sub">Work packages by status. Open a card to set its owner, status, dates and progress, and to break it into tasks.</p>
+  <nav class="wtabs" data-tabs></nav></header>
+  <div data-view="board"></div>
+</article>
+<article class="doc work" id="work-sprint" data-title="Sprint" data-docid="WORK" data-section="Delivery" hidden>
+  <header class="doc-head"><p class="crumb">Delivery</p><div class="idline"><span class="docid">WORK</span><span class="live" data-live><i></i><span>Baseline plan (read-only)</span></span></div>
+  <h1>Sprint</h1><p class="sub">Two-week sprints counted from the programme start. Tasks belong to a work package and a sprint.</p>
+  <nav class="wtabs" data-tabs></nav></header>
+  <div data-view="sprint"></div>
+</article>
+<article class="doc work" id="work-teams" data-title="Teams and ownership" data-docid="WORK" data-section="Delivery" hidden>
+  <header class="doc-head"><p class="crumb">Delivery</p><div class="idline"><span class="docid">WORK</span><span class="live" data-live><i></i><span>Baseline plan (read-only)</span></span></div>
+  <h1>Teams and ownership</h1><p class="sub">Who leads each team, who is in it, and how much of the plan each team carries. Decision rights are in the RACI (KP-PRJ-02).</p>
+  <nav class="wtabs" data-tabs></nav></header>
+  <div data-view="teams"></div>
+</article>
+<article class="doc work" id="work-gates" data-title="Gate readiness" data-docid="WORK" data-section="Delivery" hidden>
+  <header class="doc-head"><p class="crumb">Delivery</p><div class="idline"><span class="docid">WORK</span><span class="live" data-live><i></i><span>Baseline plan (read-only)</span></span></div>
+  <h1>Gate readiness</h1><p class="sub">The go-live checklists from KP-OPS-06. Tick an item when its evidence exists; the tracker records who and when.</p>
+  <nav class="wtabs" data-tabs></nav></header>
+  <div data-view="gates"></div>
+</article>
+<article class="doc work" id="work-risks" data-title="Risk tracker" data-docid="WORK" data-section="Delivery" hidden>
+  <header class="doc-head"><p class="crumb">Delivery</p><div class="idline"><span class="docid">WORK</span><span class="live" data-live><i></i><span>Baseline plan (read-only)</span></span></div>
+  <h1>Risk tracker</h1><p class="sub">The risk register from KP-PRJ-03, scored likelihood × impact, with status kept current at the monthly review.</p>
+  <nav class="wtabs" data-tabs></nav></header>
+  <div data-view="risks"></div>
+</article>
+
+<aside class="drawer" id="wdrawer" hidden aria-label="Work package details"></aside>
+<div class="toast" id="wtoast" hidden role="status"></div>
+
+<script>
+(function(){
+  const B = JSON.parse(document.getElementById("work-baseline").textContent);
+  const TABS=[["work","Overview"],["work-plan","Timeline"],["work-board","Board"],["work-sprint","Sprint"],["work-teams","Teams"],["work-gates","Gates"],["work-risks","Risks"]];
+  const WPS=["not_started","in_progress","blocked","in_review","done"];
+  const WPL={not_started:"Not started",in_progress:"In progress",blocked:"Blocked",in_review:"In review",done:"Done"};
+  const TS=["todo","doing","review","done"], TSL={todo:"To do",doing:"Doing",review:"Review",done:"Done"};
+  const RS=["open","mitigating","accepted","closed"];
+  const S={live:false, canWrite:false, me:null, db:null, user:null,
+    config:{startDate:B.startDate, sprintDays:14},
+    milestones:B.milestones, teams:{}, wps:{}, gi:{}, risks:{}, tasks:{}};
+  B.teams.forEach(t=>S.teams[t.code]=Object.assign({},t));
+  B.workpackages.forEach(w=>S.wps[w.code]=Object.assign({},w));
+  B.gateitems.forEach(g=>S.gi[g.id]=Object.assign({},g));
+  B.risks.forEach(r=>S.risks[r.code]=Object.assign({},r));
+  const names={}; // id -> {name, avatarUrl}
+  const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const md=s=>esc(s).replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\*\*(.+?)\*\*/g,"<b>$1</b>");
+  const teamChip=c=>`<span class="chip team" style="--tc:var(--t-${esc(c)})">${esc(c)}</span>`;
+  const stat=(s,L=WPL)=>`<span class="st st-${esc(s)}">${esc(L[s]||s)}</span>`;
+
+  // ---------------- dates
+  function monthStart(n){ const d=new Date(S.config.startDate+"T00:00:00Z"); d.setUTCMonth(d.getUTCMonth()+n-1); return d; }
+  const fmtM=d=>d.toLocaleDateString(undefined,{month:"short",year:"2-digit",timeZone:"UTC"});
+  const fmtD=d=>d.toLocaleDateString(undefined,{day:"numeric",month:"short",timeZone:"UTC"});
+  function progMonth(date){ const s=new Date(S.config.startDate+"T00:00:00Z"); const t=date||new Date(); return (t.getUTCFullYear()-s.getUTCFullYear())*12+(t.getUTCMonth()-s.getUTCMonth())+1+(t.getUTCDate()-s.getUTCDate())/31; }
+  function sprintOf(date){ const s=new Date(S.config.startDate+"T00:00:00Z"); return Math.floor(((date||new Date())-s)/(86400000*S.config.sprintDays))+1; }
+  function sprintRange(n){ const s=new Date(S.config.startDate+"T00:00:00Z"); const a=new Date(s.getTime()+(n-1)*S.config.sprintDays*86400000); const b=new Date(a.getTime()+(S.config.sprintDays-1)*86400000); return [a,b]; }
+
+  // ---------------- derived
+  const wpList=()=>Object.values(S.wps).sort((a,b)=>a.order-b.order);
+  function wpProgress(w){ if(w.status==="done") return 100; const ts=Object.values(S.tasks).filter(t=>t.wp===w.code); if(ts.length){ return Math.round(100*ts.filter(t=>t.status==="done").length/ts.length); } return Math.max(0,Math.min(100,w.progress||0)); }
+  const depsDone=w=>(w.dependsOn||[]).every(d=>!S.wps[d]||S.wps[d].status==="done");
+  const ready=()=>wpList().filter(w=>w.status==="not_started"&&depsDone(w));
+  const PB=B.playbook||{};
+  const sliceDone=(code,n)=>Object.values(S.tasks).some(t=>t.wp===code&&t.slice===n&&t.status==="done");
+  const nextSlice=code=>{ const p=PB[code]; if(!p) return null; return p.slices.find(sl=>!sliceDone(code,sl.n))||null; };
+  function nextUp(){ const open=Object.values(S.wps).filter(w=>PB[w.code]&&w.status!=="done");
+    if(!open.length) return []; const cur=Math.min(...open.map(w=>PB[w.code].stageIdx));   // current stage + the one after it
+    return open.filter(w=>depsDone(w)&&PB[w.code].stageIdx<=cur+1).sort((a,b)=>PB[a.code].order-PB[b.code].order).slice(0,4); }
+  function msStats(m){ const ws=wpList().filter(w=>w.milestone===m.code); const p=ws.length?Math.round(ws.reduce((a,w)=>a+wpProgress(w),0)/ws.length):0;
+    const done=ws.filter(w=>w.status==="done").length, blocked=ws.filter(w=>w.status==="blocked").length;
+    const late=progMonth()>m.endMonth+1 && done<ws.length;
+    return {ws,p,done,blocked,state: done===ws.length&&ws.length?"done": (blocked||late)?"risk": (ws.some(w=>w.status!=="not_started")?"active":"planned")}; }
+  function personHTML(id){ if(!id) return '<span class="muted">Unassigned</span>'; const p=names[id]; const n=p&&p.name?p.name:"Someone";
+    return `<span class="who">${p?`<img alt="" src="${esc(p.avatarUrl)}">`:""}<span>${esc(n)}</span></span>`; }
+  let resolving=false;
+  async function resolveNames(){ if(!S.user||resolving) return; const ids=new Set();
+    Object.values(S.wps).forEach(w=>w.ownerId&&ids.add(w.ownerId)); Object.values(S.tasks).forEach(t=>t.assigneeId&&ids.add(t.assigneeId));
+    Object.values(S.teams).forEach(t=>{t.leadId&&ids.add(t.leadId);(t.memberIds||[]).forEach(i=>ids.add(i));}); Object.values(S.gi).forEach(g=>g.doneBy&&ids.add(g.doneBy));
+    const need=[...ids].filter(i=>!names[i]); if(!need.length) return; resolving=true;
+    try{ const ps=await S.user.profiles(need); Object.assign(names,ps); }catch(_){} resolving=false; renderAll(); }
+
+  // ---------------- render
+  function tabs(){ const cur=(location.hash||"#").slice(1); $$("[data-tabs]").forEach(n=>n.innerHTML=TABS.map(([h,l])=>`<a href="#${h}" class="${cur===h?"on":""}">${l}</a>`).join("")); }
+  function liveBadge(){ $$("[data-live]").forEach(n=>{ n.classList.toggle("on",S.live); n.querySelector("span").textContent=S.live?(S.canWrite?"Live · you can edit":"Live · view only"):"Baseline plan (read-only)"; }); }
+
+  function renderOverview(){
+    const ws=wpList(); const total=ws.length; const c=s=>ws.filter(w=>w.status===s).length;
+    const gis=Object.values(S.gi); const gp=gis.length?Math.round(100*gis.filter(g=>g.done).length/gis.length):0;
+    const openTasks=Object.values(S.tasks).filter(t=>t.status!=="done").length;
+    const pm=progMonth(); const monthLabel = pm<1 ? `starts ${fmtD(new Date(S.config.startDate+"T00:00:00Z"))}` : `month ${Math.floor(pm)} · sprint ${sprintOf()}`;
+    const k=[[`${c("done")}/${total}`,"work packages done"],[c("in_progress")+c("in_review"),"in progress or review"],[c("blocked"),"blocked",c("blocked")>0],[ready().length,"ready to start"],[openTasks,"open tasks"],[gp+"%","gate items ready"]];
+    let h=`<p class="note">Programme ${monthLabel}. Plan of record: <a class="ref" href="#kp-hbk-06">KP-HBK-06</a> · gates: <a class="ref" href="#kp-ops-06">KP-OPS-06</a></p>`;
+    h+=`<div class="kpis">${k.map(([n,l,a])=>`<div class="kpi${a?" alert":""}"><b>${n}</b><span>${l}</span></div>`).join("")}</div>`;
+    h+=`<div class="wgrid"><div class="panel"><h3>Milestones<small>average progress of their work packages</small></h3>`;
+    S.milestones.forEach(m=>{ const s=msStats(m); const col=s.state==="done"?"var(--s-done)":s.state==="risk"?"var(--s-block)":"var(--s-prog)";
+      h+=`<div class="ms"><code>${m.code}</code><div><div>${esc(m.title)}${m.gate?` <span class="chip">${esc(m.gate)}</span>`:""}</div><div class="bar" style="margin-top:6px"><i style="width:${s.p}%;background:${col}"></i></div></div>
+      <div class="dates">${fmtM(monthStart(m.startMonth))} – ${fmtM(monthStart(m.endMonth))}${s.blocked?` · <span style="color:var(--s-block)">${s.blocked} blocked</span>`:""}</div><div class="pct">${s.p}%</div></div>`; });
+    h+=`</div><div style="display:grid;gap:18px">`;
+    const nx=nextUp();
+    h+=`<div class="panel"><h3>Next with Claude<small>in path-to-Beta order · <a class="ref" href="#kp-hbk-23">KP-HBK-23</a></small></h3>${Object.values(S.wps).every(w=>w.status==="not_started")?'<p class="note">Before WP-01: do the set-up steps SETUP-1 and SETUP-2 in <a class="ref" href="#kp-hbk-23">KP-HBK-23</a> §9.</p>':""}${nx.length?`<ul class="wlist nextup">${nx.map(w=>{ const sl=nextSlice(w.code); return `<li><button class="wp-code" data-wp="${w.code}">${w.code}</button><span class="grow">${esc(w.title.replace(/`/g,""))}${sl?`<br><span class="note">Next: slice ${sl.n} · ${esc(sl.title)}</span><br><code class="cmd">${esc(sl.short)}</code>`:""}</span>${stat(w.status)}</li>`; }).join("")}</ul>`:'<p class="empty">Every step of the path to Beta is done or waiting on dependencies.</p>'}</div>`;
+    const bl=ws.filter(w=>w.status==="blocked");
+    h+=`<div class="panel"><h3>Blocked<small>${bl.length}</small></h3>${bl.length?`<ul class="wlist">${bl.map(li).join("")}</ul>`:'<p class="empty">Nothing is blocked.</p>'}</div>`;
+    const rd=ready().slice(0,8);
+    h+=`<div class="panel"><h3>Ready to start<small>dependencies done</small></h3>${rd.length?`<ul class="wlist">${rd.map(li).join("")}</ul>`:'<p class="empty">No work package is waiting on a start.</p>'}</div>`;
+    const recent=ws.filter(w=>w.updatedAt).sort((a,b)=>b.updatedAt-a.updatedAt).slice(0,6);
+    h+=`<div class="panel"><h3>Recently updated</h3>${recent.length?`<ul class="wlist">${recent.map(li).join("")}</ul>`:'<p class="empty">No updates yet. Open a work package on the board to start tracking.</p>'}</div>`;
+    h+=`</div></div>`;
+    $('[data-view="overview"]').innerHTML=h;
+  }
+  function li(w){ return `<li><button class="wp-code" data-wp="${w.code}">${w.code}</button><span class="grow">${esc(w.title.replace(/`/g,""))}</span>${stat(w.status)}</li>`; }
+
+  function renderPlan(){
+    const cur=progMonth(); let h=`<div class="legend-row">${Object.keys(S.teams).map(teamChip).join("")}</div><div class="gantt"><div class="g-inner">`;
+    h+=`<div class="g-row g-head"><div style="text-align:left;padding-left:10px">Work package</div>${Array.from({length:18},(_,i)=>`<div>M${i+1}<br><span style="font-weight:400">${fmtM(monthStart(i+1))}</span></div>`).join("")}</div>`;
+    const todayCol = cur>=1&&cur<19 ? `<span class="g-today" style="left:calc(270px + (100% - 270px) * ${(cur-1)/18})"></span>` : "";
+    S.milestones.forEach(m=>{
+      h+=`<div class="g-row g-ms"><div class="g-lab"><code>${m.code}</code><span>${esc(m.title)}${m.gate?" · "+esc(m.gate):""}</span></div>${todayCol}</div>`;
+      wpList().filter(w=>w.milestone===m.code).forEach(w=>{
+        const t=w.teams[0]||"SRE"; const p=wpProgress(w);
+        h+=`<div class="g-row"><button class="g-lab" data-wp="${w.code}"><code>${w.code}</code><span>${esc(w.title.replace(/`/g,""))}</span></button>
+        <div class="g-bar${w.status==="blocked"?" blocked":""}" style="--tc:var(--t-${t});grid-column:${w.startMonth+1} / ${w.endMonth+2}" title="${esc(w.code+" · "+WPL[w.status]+" · "+p+"%")}"><i style="width:${p}%"></i></div>${todayCol}</div>`;
+      });
+    });
+    h+=`</div></div><p class="note" style="margin-top:10px">Months are counted from the programme start (${fmtD(new Date(S.config.startDate+"T00:00:00Z"))}). Change a work package's months from its details.</p>`;
+    $('[data-view="plan"]').innerHTML=h;
+  }
+
+  const F={team:"",ms:"",owner:"",q:""};
+  function renderBoard(){
+    const v=$('[data-view="board"]'); let fl=v.querySelector(".filters");
+    if(!fl){ v.innerHTML=`<div class="filters"><label for="fb-team">Team</label><select id="fb-team"><option value="">All</option>${Object.keys(S.teams).map(t=>`<option>${t}</option>`).join("")}</select>
+      <label for="fb-ms">Milestone</label><select id="fb-ms"><option value="">All</option>${S.milestones.map(m=>`<option value="${m.code}">${m.code} ${esc(m.title)}</option>`).join("")}</select>
+      <label for="fb-owner">Owner</label><select id="fb-owner"><option value="">Anyone</option><option value="me">Mine</option><option value="none">Unassigned</option></select>
+      <input id="fb-q" type="search" placeholder="Filter by title or WP" autocomplete="off"></div><div class="board"></div>`;
+      $("#fb-team").onchange=e=>{F.team=e.target.value;renderBoard();}; $("#fb-ms").onchange=e=>{F.ms=e.target.value;renderBoard();};
+      $("#fb-owner").onchange=e=>{F.owner=e.target.value;renderBoard();}; $("#fb-q").oninput=e=>{F.q=e.target.value.toLowerCase();renderBoard();}; }
+    const ws=wpList().filter(w=>(!F.team||w.teams.includes(F.team))&&(!F.ms||w.milestone===F.ms)&&(!F.owner||(F.owner==="none"?!w.ownerId:F.owner==="me"?w.ownerId&&w.ownerId===S.me:true))&&(!F.q||(w.code+" "+w.title).toLowerCase().includes(F.q)));
+    v.querySelector(".board").innerHTML=WPS.map(s=>{ const col=ws.filter(w=>w.status===s);
+      return `<div class="col"><h4><span>${WPL[s]}</span><span>${col.length}</span></h4>${col.map(card).join("")||'<p class="empty" style="padding:4px">—</p>'}</div>`; }).join("");
+  }
+  function card(w){ const t=w.teams[0]||"SRE", p=wpProgress(w);
+    return `<button class="card-wp" style="--tc:var(--t-${t})" data-wp="${w.code}"><span class="top-l"><span>${w.code} · ${w.milestone}</span><span>${w.teams.join("+")}</span></span>
+      <span class="ttl" style="display:block">${esc(w.title.replace(/`/g,""))}</span><span class="foot-l">${personHTML(w.ownerId)}<span>${p}%</span></span>
+      <span class="mini st-${w.status}" style="display:block"><i style="width:${p}%"></i></span></button>`; }
+
+  let sprintSel=null;
+  function renderSprint(){
+    const cur=Math.max(1,sprintOf()); if(sprintSel==null) sprintSel=cur;
+    const [a,b]=sprintRange(sprintSel); const ts=Object.values(S.tasks).filter(t=>Number(t.sprint)===sprintSel);
+    let h=`<div class="filters"><label for="sp-n">Sprint</label><select id="sp-n">${Array.from({length:40},(_,i)=>i+1).map(n=>`<option value="${n}"${n===sprintSel?" selected":""}>Sprint ${n}${n===cur?" (current)":""}</option>`).join("")}</select>
+      <span>${fmtD(a)} – ${fmtD(b)} · ${ts.length} tasks · ${ts.reduce((s,t)=>s+(Number(t.points)||0),0)} points</span></div>`;
+    h+=`<div class="sprint-cols">${TS.map(s=>{ const col=ts.filter(t=>t.status===s);
+      return `<div class="col"><h4><span>${TSL[s]}</span><span>${col.length}</span></h4>${col.map(t=>`<div class="task-card"><button class="wp-link" data-wp="${t.wp}">${esc(t.wp)}</button> ${t.points?`<span class="chip">${esc(t.points)} pt</span>`:""}<div style="margin:4px 0">${esc(t.title)}</div>${personHTML(t.assigneeId)}</div>`).join("")||'<p class="empty" style="padding:4px">—</p>'}</div>`; }).join("")}</div>`;
+    h+=`<p class="note" style="margin-top:10px">Add tasks from a work package's details on the board. Sprint length: ${S.config.sprintDays} days from ${fmtD(new Date(S.config.startDate+"T00:00:00Z"))}.</p>`;
+    $('[data-view="sprint"]').innerHTML=h; $("#sp-n").onchange=e=>{sprintSel=Number(e.target.value);renderSprint();};
+  }
+
+  function renderTeams(){
+    const h=Object.values(S.teams).map(t=>{ const ws=wpList().filter(w=>w.teams.includes(t.code)); const d=ws.filter(w=>w.status==="done").length;
+      const inp=ws.filter(w=>w.status==="in_progress"||w.status==="in_review").length, bl=ws.filter(w=>w.status==="blocked").length;
+      const openT=Object.values(S.tasks).filter(x=>x.status!=="done"&&S.wps[x.wp]&&S.wps[x.wp].teams.includes(t.code)).length;
+      const pct=ws.length?Math.round(100*d/ws.length):0;
+      return `<div class="tcard" style="--tc:var(--t-${t.code})"><h3>${esc(t.name)}<code>${t.code}</code></h3><p>${esc(t.scope)}</p>
+        <div class="kv"><b>Lead</b>${personHTML(t.leadId)} ${S.canWrite?`<button class="linkbtn" data-pick="lead" data-team="${t.code}">${t.leadId?"Change":"Assign"}</button>`:""}</div>
+        <div class="kv"><b>Members</b></div><div class="people">${(t.memberIds||[]).map(id=>`<span class="person">${names[id]?`<img alt="" src="${esc(names[id].avatarUrl)}">`:""}<span>${esc((names[id]&&names[id].name)||"Someone")}</span>${S.canWrite?`<button aria-label="Remove member" data-rm="${esc(id)}" data-team="${t.code}">×</button>`:""}</span>`).join("")||'<span class="muted" style="font-size:12.5px">No members yet</span>'}
+        ${S.canWrite?`<button class="linkbtn" data-pick="member" data-team="${t.code}">+ Add</button>`:""}</div>
+        <div class="kv"><b>Plan</b>${ws.length} work packages · ${d} done · ${inp} active${bl?` · <span style="color:var(--s-block)">${bl} blocked</span>`:""} · ${openT} open tasks</div>
+        <div class="bar"><i style="width:${pct}%;background:var(--tc)"></i></div><div class="picker-slot"></div></div>`; }).join("");
+    $('[data-view="teams"]').innerHTML=`<div class="teams">${h}</div><p class="note" style="margin-top:12px">Decision rights and escalation: <a class="ref" href="#kp-prj-02">KP-PRJ-02</a> · rituals: <a class="ref" href="#kp-hbk-21">KP-HBK-21</a></p>`;
+  }
+
+  function renderGates(){
+    let h="";
+    B.gates.forEach(g=>{ const items=Object.values(S.gi).filter(i=>i.gate===g.code).sort((a,b)=>a.order-b.order); const d=items.filter(i=>i.done).length; const p=items.length?Math.round(100*d/items.length):0;
+      h+=`<section class="gate panel"><div class="gate-h"><h3>${g.code} · ${esc(g.title)} <small class="muted">${d}/${items.length}</small></h3><div class="bar"><i style="width:${p}%;background:${p===100?"var(--s-done)":"var(--s-prog)"}"></i></div></div>`;
+      let sec=null;
+      items.forEach(i=>{ if(i.section!==sec){ sec=i.section; h+=`<div class="gsec">${esc(sec)}</div>`; }
+        h+=`<label class="gitem${i.done?" done":""}"><input type="checkbox" data-gi="${i.id}"${i.done?" checked":""}${S.canWrite?"":" disabled"}><span class="txt" style="flex:1">${md(i.text)}</span>${i.done?`<span class="by">${personHTML(i.doneBy)} · ${i.doneAt?fmtD(new Date(i.doneAt)):""}</span>`:""}</label>`; });
+      h+=`</section>`; });
+    $('[data-view="gates"]').innerHTML=h+`<p class="note">G4 (network and Bridge) criteria are set at the G3 review. Checklist source: <a class="ref" href="#kp-ops-06">KP-OPS-06</a>.</p>`;
+  }
+
+  function renderRisks(){
+    const rs=Object.values(S.risks).sort((a,b)=>b.likelihood*b.impact-a.likelihood*a.impact);
+    let h=`<div class="table-wrap"><table><thead><tr><th>Risk</th><th>L×I</th><th>Mitigation</th><th>Owner</th><th>Status</th></tr></thead><tbody>`;
+    rs.forEach(r=>{ const sc=r.likelihood*r.impact, cl=sc>=15?"h-hi":sc>=8?"h-md":"h-lo";
+      h+=`<tr><td><code>${r.code}</code> ${esc(r.title)}</td><td><span class="heat ${cl}">${sc}</span></td><td>${md(r.mitigation)}</td><td>${esc(r.ownerRole)}</td>
+      <td><select data-risk="${r.code}" aria-label="Status of ${r.code}"${S.canWrite?"":" disabled"}>${RS.map(s=>`<option${s===r.status?" selected":""}>${s}</option>`).join("")}</select></td></tr>`; });
+    h+=`</tbody></table></div><p class="note">Scoring and review cadence: <a class="ref" href="#kp-prj-03">KP-PRJ-03</a>.</p>`;
+    $('[data-view="risks"]').innerHTML=h;
+  }
+
+  let queued=false;
+  function renderAll(){ if(queued) return; queued=true; requestAnimationFrame(()=>{ queued=false;
+    tabs(); liveBadge(); renderOverview(); renderPlan(); renderBoard(); renderSprint(); renderTeams(); renderGates(); renderRisks();
+    if(openWp) renderDrawer(); resolveNames(); }); }
+
+  // ---------------- drawer
+  let openWp=null;
+  const drawer=$("#wdrawer");
+  function openDrawer(code){ openWp=code; drawer.hidden=false; renderDrawer(true); }
+  function closeDrawer(){ openWp=null; drawer.hidden=true; }
+  function renderDrawer(first){
+    const w=S.wps[openWp]; if(!w) return closeDrawer();
+    const dis=S.canWrite?"":" disabled";
+    const active=document.activeElement && drawer.contains(document.activeElement) && !first;
+    if(active) { const tl=$("#dw-tasks"); if(tl) tl.innerHTML=taskList(w); return; } // keep form edits while the user types
+    const deps=(w.dependsOn||[]).map(d=>S.wps[d]?`<button class="wp-code" data-wp="${d}">${d}</button> ${stat(S.wps[d].status)}`:d).join(" · ")||esc(w.dependsNote||"None");
+    drawer.innerHTML=`<header><div class="row"><span class="docid">${w.code} · ${w.milestone}</span><button class="x" type="button" data-close>Close</button></div>
+      <h2>${esc(w.title.replace(/`/g,""))}</h2><div>${w.teams.map(teamChip).join(" ")}</div></header>
+      <div class="body">
+      <div class="kv"><b>Done when</b>${md(w.doneWhen)}</div>
+      <div class="kv"><b>Depends on</b>${deps}</div>
+      ${pbHTML(w)}
+      <div class="wform">
+        <label for="dw-status">Status</label><select id="dw-status"${dis}>${WPS.map(s=>`<option value="${s}"${s===w.status?" selected":""}>${WPL[s]}</option>`).join("")}</select>
+        <label>Owner</label><div class="picker" id="dw-owner-slot"><span id="dw-owner">${personHTML(w.ownerId)}</span> ${S.canWrite?`<button class="linkbtn" data-pick="owner">${w.ownerId?"Change":"Assign"}</button>${w.ownerId?` <button class="linkbtn" data-unassign>Unassign</button>`:""}`:""}</div>
+        <label for="dw-start">Months</label><div><select id="dw-start"${dis}>${Array.from({length:18},(_,i)=>`<option value="${i+1}"${i+1===w.startMonth?" selected":""}>M${i+1} ${fmtM(monthStart(i+1))}</option>`).join("")}</select> – <select id="dw-end" aria-label="End month"${dis}>${Array.from({length:18},(_,i)=>`<option value="${i+1}"${i+1===w.endMonth?" selected":""}>M${i+1} ${fmtM(monthStart(i+1))}</option>`).join("")}</select></div>
+        <label for="dw-prog">Progress</label><div><input id="dw-prog" type="range" min="0" max="100" step="5" value="${w.progress||0}"${dis}> <span id="dw-prog-v">${wpProgress(w)}%</span> <span class="note">${Object.values(S.tasks).some(t=>t.wp===w.code)?"(from tasks)":""}</span></div>
+        <label for="dw-notes" class="full">Notes, decisions, links</label><textarea id="dw-notes" class="full"${dis}>${esc(w.notes||"")}</textarea>
+      </div>
+      ${S.canWrite?`<div><button class="btn" type="button" id="dw-save">Save changes</button> <span class="note" id="dw-saved"></span></div>`:`<p class="note">${S.live?"You can view this plan. Ask the owner for Contributor access to edit.":"Live tracking is not available in this view; this is the baseline plan."}</p>`}
+      <div><h3 style="margin:6px 0 8px;font:600 15px var(--f-body)">Tasks</h3><ul class="tasks" id="dw-tasks">${taskList(w)}</ul></div>
+      ${S.canWrite?`<div class="addtask"><label for="nt-title" class="sr">New task</label><input type="text" id="nt-title" placeholder="New task" maxlength="200">
+        <select id="nt-sprint" aria-label="Sprint">${Array.from({length:40},(_,i)=>`<option value="${i+1}"${i+1===Math.max(1,sprintOf())?" selected":""}>Sprint ${i+1}</option>`).join("")}</select>
+        <select id="nt-pts" aria-label="Points">${[1,2,3,5,8].map(p=>`<option>${p}</option>`).join("")}</select><button class="btn ghost" type="button" id="nt-add">Add task</button></div>`:""}
+      <p class="note">Source: <a class="ref" href="#kp-hbk-06">KP-HBK-06 Build Plan</a>${w.updatedAt?` · last updated ${new Date(w.updatedAt).toLocaleString()}`:""}</p></div>`;
+    const pr=$("#dw-prog"); if(pr) pr.oninput=()=>$("#dw-prog-v").textContent=pr.value+"%";
+  }
+  function pbHTML(w){ const p=PB[w.code]; if(!p) return "";
+    const WHO={claude:"Claude builds, you review and merge",you:"Only you can do this",both:"Claude prepares, you execute or approve"};
+    const hasSliceTasks=Object.values(S.tasks).some(t=>t.wp===w.code&&t.slice);
+    return `<div class="pb"><h3>Build with Claude</h3><p class="note">Stage ${esc(p.stage)} · ${esc(p.stageTitle)} · ${esc(WHO[p.who]||"")} · read: ${p.read.map(r=>/^(KP-|ADR-)/.test(r)?`<a class="ref" href="#${r.toLowerCase()}">${esc(r)}</a>`:esc(r)).join(", ")}</p>
+      ${p.slices.map(sl=>`<div class="sl"><div class="sl-h"><span class="docid">${sl.n}/${p.slices.length}</span><b>${esc(sl.title)}</b>${sliceDone(w.code,sl.n)?'<span class="ok">Done</span>':`<code class="cmd">${esc(sl.short)}</code>`}</div>
+        <div class="kv">${md(sl.goal)}</div><div class="kv"><b>Done when</b> ${md(sl.done)}</div>
+        <details><summary>Full prompt (paste into a new session in the repository)</summary><div class="code-wrap"><button class="copy" type="button">Copy</button><pre><code>${esc(sl.prompt)}</code></pre></div></details></div>`).join("")}
+      ${p.youVerify?`<p class="kv"><b>You check</b> ${md(p.youVerify)}</p>`:""}
+      ${S.canWrite&&!hasSliceTasks?`<button class="btn ghost" type="button" id="dw-slices">Create a task per slice</button> <span class="note">tracks each session on the Sprint board</span>`:""}</div>`; }
+  function taskList(w){ const ts=Object.values(S.tasks).filter(t=>t.wp===w.code).sort((a,b)=>(a.createdAt||0)-(b.createdAt||0));
+    if(!ts.length) return '<li class="empty" style="display:block">No tasks yet.</li>';
+    return ts.map(t=>`<li><select data-task="${t.id}" aria-label="Task status"${S.canWrite?"":" disabled"}>${TS.map(s=>`<option value="${s}"${s===t.status?" selected":""}>${TSL[s]}</option>`).join("")}</select>
+      <span>${esc(t.title)}<br><span class="meta-t">Sprint ${esc(t.sprint)} · ${esc(t.points||"?")} pt · </span>${personHTML(t.assigneeId)} ${S.canWrite?`<button class="linkbtn" data-pick="assignee" data-tid="${t.id}">${t.assigneeId?"Reassign":"Assign"}</button>`:""}</span>
+      ${S.canWrite?`<button class="linkbtn" data-deltask="${t.id}" aria-label="Delete task">Delete</button>`:"<span></span>"}</li>`).join(""); }
+
+  // ---------------- people picker
+  let pickerCtx=null;
+  async function openPicker(anchor, ctx){
+    closePicker(); if(!S.user) return; pickerCtx=ctx;
+    const box=document.createElement("div"); box.className="picker"; box.id="pk";
+    box.innerHTML=`<input type="search" id="pk-q" placeholder="Search people in your organization" autocomplete="off" style="width:100%;margin-top:6px;font:inherit;font-size:13.5px;height:32px;border:1px solid var(--rule);border-radius:6px;padding:0 8px;background:var(--surface);color:var(--ink)"><ul id="pk-r"></ul>`;
+    anchor.after(box); const q=$("#pk-q"); q.focus();
+    const draw=async v=>{ const hits=await S.user.search(v); const ul=$("#pk-r"); if(!ul) return; ul.innerHTML="";
+      if(!hits.length){ ul.innerHTML='<li class="empty" style="padding:6px 8px">No matches</li>'; return; }
+      hits.forEach(p=>{ names[p.id]=p; const li=document.createElement("li"); const b=document.createElement("button"); b.type="button";
+        const img=document.createElement("img"); img.alt=""; img.src=p.avatarUrl; const sp=document.createElement("span"); sp.textContent=p.name+(p.isMe?" (you)":"");
+        b.append(img,sp); b.onclick=()=>choose(p.id); li.append(b); ul.append(li); }); };
+    q.oninput=()=>draw(q.value); draw("");
+  }
+  function closePicker(){ const p=$("#pk"); if(p) p.remove(); pickerCtx=null; }
+  async function choose(id){ const c=pickerCtx; closePicker(); if(!c) return;
+    if(c.kind==="owner") await write("workpackages",c.code,{ownerId:id,updatedAt:Date.now(),updatedBy:S.me});
+    if(c.kind==="assignee") await write("tasks",c.tid,{assigneeId:id,updatedAt:Date.now()});
+    if(c.kind==="lead") await write("teams",c.team,{leadId:id});
+    if(c.kind==="member"){ const t=S.teams[c.team]; const m=[...new Set([...(t.memberIds||[]),id])]; await write("teams",c.team,{memberIds:m}); } }
+
+  // ---------------- writes
+  function toast(msg){ const t=$("#wtoast"); t.textContent=msg; t.hidden=false; clearTimeout(toast.h); toast.h=setTimeout(()=>t.hidden=true,2600); }
+  async function write(coll,id,patch,create){
+    if(!S.db||!S.canWrite){ toast("Editing needs live access to this page."); return false; }
+    const local = coll==="workpackages"?S.wps:coll==="tasks"?S.tasks:coll==="teams"?S.teams:coll==="gateitems"?S.gi:S.risks;
+    const prev=local[id]; local[id]=Object.assign({},prev||{},patch,coll==="tasks"?{id}:{}); renderAll(); // optimistic
+    try{ const ref=S.db.doc(coll+"/"+id); if(create) await ref.set(local[id]); else await ref.update(patch); return true; }
+    catch(e){ if(prev) local[id]=prev; else delete local[id]; renderAll();
+      if(e&&e.code==="invalid_argument"){ S.canWrite=false; renderAll(); toast("You can view this tracker but not change it."); }
+      else if(e&&e.code==="quota_exceeded") toast("The tracker is full. Delete finished tasks to add new ones.");
+      else toast("Could not save. Check your connection and try again."); return false; } }
+
+  document.addEventListener("click",async e=>{
+    const wpb=e.target.closest("[data-wp]"); if(wpb&&!e.target.closest("select")){ e.preventDefault(); openDrawer(wpb.dataset.wp); return; }
+    if(e.target.closest("[data-close]")){ closeDrawer(); return; }
+    const pk=e.target.closest("[data-pick]");
+    if(pk){ const k=pk.dataset.pick; openPicker(pk, k==="owner"?{kind:"owner",code:openWp}:k==="assignee"?{kind:"assignee",tid:pk.dataset.tid}:{kind:k,team:pk.dataset.team}); return; }
+    if(e.target.closest("[data-unassign]")){ await write("workpackages",openWp,{ownerId:null,updatedAt:Date.now(),updatedBy:S.me}); return; }
+    const rm=e.target.closest("[data-rm]"); if(rm){ const t=S.teams[rm.dataset.team]; await write("teams",t.code,{memberIds:(t.memberIds||[]).filter(i=>i!==rm.dataset.rm)}); return; }
+    const del=e.target.closest("[data-deltask]"); if(del){ const id=del.dataset.deltask; const b=del; b.textContent="Confirm delete"; b.dataset.confirm=b.dataset.confirm?"":"1";
+      if(!b.dataset.confirm){ const prev=S.tasks[id]; delete S.tasks[id]; renderAll(); try{ await S.db.doc("tasks/"+id).delete(); }catch(_){ S.tasks[id]=prev; renderAll(); toast("Could not delete the task."); } } return; }
+    if(e.target.id==="dw-save"){ const w=S.wps[openWp]; let a=Number($("#dw-start").value), b=Number($("#dw-end").value); if(b<a) [a,b]=[b,a];
+      const ok=await write("workpackages",openWp,{status:$("#dw-status").value,startMonth:a,endMonth:b,progress:Number($("#dw-prog").value),notes:$("#dw-notes").value.slice(0,4000),updatedAt:Date.now(),updatedBy:S.me});
+      if(ok){ document.activeElement.blur(); renderDrawer(true); toast(w.code+" saved"); } return; }
+    if(e.target.id==="dw-slices"){ const p=PB[openWp]; if(!p) return; e.target.disabled=true; let n=0;
+      for(const sl of p.slices){ const id="t"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+        if(await write("tasks",id,{wp:openWp,slice:sl.n,title:(`Slice ${sl.n}: ${sl.title}`).slice(0,200),status:"todo",sprint:Math.max(1,sprintOf()),points:3,assigneeId:null,createdBy:S.me,createdAt:Date.now()},true)) n++; }
+      renderDrawer(true); toast(n+" slice tasks added"); return; }
+    if(e.target.id==="nt-add"){ const title=$("#nt-title").value.trim(); if(!title){ $("#nt-title").focus(); return; }
+      const id="t"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+      const ok=await write("tasks",id,{wp:openWp,title:title.slice(0,200),status:"todo",sprint:Number($("#nt-sprint").value),points:Number($("#nt-pts").value),assigneeId:null,createdBy:S.me,createdAt:Date.now()},true);
+      if(ok){ $("#nt-title").value=""; toast("Task added"); } return; }
+    if(!e.target.closest("#pk")&&!e.target.closest("[data-pick]")) closePicker();
+  });
+  document.addEventListener("change",async e=>{
+    const gi=e.target.closest("[data-gi]"); if(gi){ const d=gi.checked; await write("gateitems",gi.dataset.gi,{done:d,doneBy:d?S.me:null,doneAt:d?Date.now():null}); return; }
+    const rk=e.target.closest("[data-risk]"); if(rk){ await write("risks",rk.dataset.risk,{status:rk.value}); return; }
+    const tk=e.target.closest("[data-task]"); if(tk){ await write("tasks",tk.dataset.task,{status:tk.value,updatedAt:Date.now()}); return; }
+  });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape"&&!drawer.hidden&&$("#scrim").hidden) closeDrawer(); });
+  window.addEventListener("hashchange",()=>{ tabs(); closeDrawer(); });
+
+  // ---------------- connect
+  renderAll();
+  (async()=>{
+    if(!window.claude||!window.claude.use) return;
+    const [db,user]=await Promise.all([window.claude.use("db"),window.claude.use("user")]);
+    if(!db) return;
+    S.db=db; S.user=user; S.live=true;
+    if(user){ S.me=await user.id(); const cw=await user.can("data.write"); S.canWrite = cw===null ? true : cw; }
+    const map={workpackages:["wps","code"],tasks:["tasks",null],teams:["teams","code"],gateitems:["gi","id"],risks:["risks","code"]};
+    let seen=0;
+    Object.entries(map).forEach(([coll,[key]])=>{
+      db.collection(coll).onSnapshot(snap=>{
+        if(coll!=="tasks" && snap.empty) { renderAll(); return; } // not seeded yet: keep baseline
+        const obj={}; snap.docs.forEach(d=>{ const v=Object.assign({},d.data()); if(coll==="tasks") v.id=d.id; obj[d.id]=v; });
+        if(coll==="tasks") S.tasks=obj; else S[key]=Object.assign(S[key],obj);
+        renderAll();
+      },err=>{ if(err&&err.code==="revoked"){ S.live=false; S.canWrite=false; renderAll(); } });
+    });
+    db.doc("config/programme").onSnapshot(s=>{ if(s.exists){ const d=s.data(); S.config={startDate:d.startDate||S.config.startDate,sprintDays:d.sprintDays||14}; renderAll(); } });
+    renderAll();
+  })();
+})();
+</script>
