@@ -15,6 +15,17 @@ Next:         the next slice or WP that is now ready
 Hub:          {WP} → status, progress %
 -->
 
+## 2026-09-27 — WP-01 slice 2: Custom lint rules   (PR pending)
+Summary for the product owner (Hebrew): ששת כללי ה-lint של Kilima פעילים ומכשילים את הבנייה: כסף כ-number/float, ‏Math.random, ‏I/O או שעון בתוך מנוע המשחק, כתיבה ישירה לטבלאות ה-ledger, קלפים בלוגים, ושאילתה לסכמה של שירות אחר. לכל כלל יש דוגמאות שעוברות ודוגמאות שנכשלות – 113 בדיקות ירוקות, ושירות הדוגמה עובר נקי.
+Built:        packages/eslint-plugin-kilima (no-float-money, no-math-random, no-io-in-engine, no-raw-ledger-entries, no-hole-cards-in-logs, no-direct-db-cross-schema; README); root eslint.config.js wires each rule to its folders
+Tested:       pnpm test ✓ 141 tests (eslint-plugin 113: 44 valid + 67 invalid fixtures + 2 plugin checks; shared 15; sample 13) · pnpm lint ✓ 0 problems · pnpm typecheck ✓ 3/3 · end-to-end probe files through the real config: all 6 rules fire (then removed)
+Done when:    met — each rule has passing and failing fixtures; the sample service passes
+Decisions:    4 entries in docs/delivery/decisions.md (TS via Node type stripping, syntactic rules, rule-tester deps, simbots/engine-test exemptions)
+Open:         hand-record writer exemption for no-hole-cards-in-logs is added when that writer exists; type-aware money checks after packages/money
+Needs you:    push the branch; merge WP-01/1 then this PR
+Next:         WP-01 slice 3 — CI pipeline (GitHub Actions)
+Hub:          WP-01 → In progress, 67%
+
 ## 2026-09-27 — WP-01 slice 1: Workspace skeleton   (PR pending)
 Summary for the product owner (Hebrew): שלד ה-monorepo עובד: pnpm + Turborepo, TypeScript strict, ESLint + Prettier ו-Vitest. נוספה ספרייה משותפת (לוגר שמסתיר סיסמאות, טלפונים וקלפים; קונפיגורציה שנכשלת מיד אם חסר ערך; שגיאות סטנדרטיות) ושירות דוגמה עם בדיקות בריאות, גרסה ומטריקות וכיבוי מסודר. כל הבדיקות ירוקות.
 Built:        root workspace (package.json, pnpm-workspace.yaml, turbo.json, tsconfig.base.json, eslint.config.js, .prettierrc.json, vitest.config.ts); packages/shared (logger, config, errors); services/sample (KP-HBK-07 layout: main.ts, config.ts, http/, domain/readiness.ts, shutdown.ts)
