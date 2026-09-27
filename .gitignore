@@ -1,0 +1,35 @@
+# Dependencies and build output
+node_modules/
+dist/
+build/
+coverage/
+.turbo/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Environment and secrets — never commit (CLAUDE.md non-negotiable 8)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Mobile
+apps/mobile/android/app/build/
+apps/mobile/ios/Pods/
+.expo/
+
+# Editors and OS
+.idea/
+.vscode/*
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+
+# Generated dossier output
+docs/site/
+docs/dist/
