@@ -15,6 +15,17 @@ Next:         the next slice or WP that is now ready
 Hub:          {WP} → status, progress %
 -->
 
+## 2026-09-29 — Fix: reference defects R1 and R2   (PR pending)
+Summary for the product owner (Hebrew): לפי אישורך תיקנתי את שני מקרי הקצה במימוש הייחוס ב-Python: ראש בראש, דילר שנכנס all-in מהבליינד כבר לא מקבל תור; ו-all-in כשמותר רק להשוות נדחה. קובץ הווקטורים נוצר מחדש ויצא זהה לגמרי, והמנוע לא השתנה. ההשוואה בין המנוע לייחוס רצה עכשיו על כל הידיים בלי שום החרגה – אפס הבדלים.
+Built:        docs/03-engineering/reference/poker_reference.py (_first_preflop heads-up skips an all-in button; act("allin") without a raise option only as a call for the whole stack; two regression asserts in the self-check); engine betting differential without exclusions
+Tested:       python3 poker_reference.py (full: 2,598,960-hand frequency self-check, all vectors, regression asserts) ✓ — test_vectors.json byte-identical · betting differential 20,000 hands / 180,311 actions, 0 excluded, 0 mismatches · settlement 20,000 and evaluation 100,000 hands 0 mismatches · 112 engine tests ✓
+Done when:    met — reference agrees with KP-ENG-06 and the engine on every generated hand
+Decisions:    R1/R2 resolved (decisions.md); certification impact: reference only, vectors unchanged
+Open:         second review of the reference change when an engineer joins (certified scope)
+Needs you:    push, PR, merge
+Next:         Stage S1 sprint review, then S2
+Hub:          WP-06 note updated
+
 ## 2026-09-29 — WP-06 slice 3: Property tests at scale   (PR pending)
 Summary for the product owner (Hebrew): הרצנו מיליון ידיים אקראיות בכל המשחקים ובכל ההגדרות (2–9 שחקנים, NL/PL, אנטה, rake, סטאקים קצרים) ובדקנו אחרי כל פעולה: אף צ'יפ לא נוצר ולא נעלם, אין יתרה שלילית, רק פעולות חוקיות מתקבלות (2.4 מיליון ניסיונות לא חוקיים – כולם נדחו), כל יד מסתיימת, אין קלף כפול, קופה לא הולכת למי שקיפל, וה-rake תמיד בגבולות. אפס הפרות. זמן פעולה: p99 כ-5.6 מיקרו-שניות (התקציב 20). עם זה WP-06 ושלב המנוע (S1) גמורים.
 Built:        test/property/invariants.ts (random hand generator + 14 invariants), quick profile test (5,000 hands in pnpm test), test/property/run.ts (`property` script, latency p50/p99, JSON report), .github/workflows/nightly.yml (10^6 hands + full differential + bench, nightly and on demand), docs/delivery/reports/wp-06-property-1e6.{md,json}

@@ -200,7 +200,8 @@ class Hand:
 
     def _first_preflop(self):
         if self.heads_up:
-            return 0
+            # The button acts first pre-flop, unless posting put them all-in (KP-ENG-06 §6.1: all-in players are skipped).
+            return 0 if not self.p[0]["folded"] and not self.p[0]["allin"] else self._next_active(0)
         return self._next_active(1)
 
     def _first_postflop(self):
@@ -278,7 +279,10 @@ class Hand:
             r = L["raise"]
             if action == "allin":
                 to = pl["street"] + pl["stack"]
-                if r is None:          # all-in as a call
+                if r is None:          # no raise option: all-in is legal only as a call for the whole stack
+                    to_call = L["call"] if L["call"] is not None else 0
+                    if pl["stack"] > to_call:
+                        raise ValueError("ILLEGAL_ACTION: raising not allowed; call (or check) instead")
                     self._put(pl, pl["stack"]); pl["acted_level"] = self.current_bet
                     return self._advance(i)
                 to = min(to, r["max_to"]) if self.structure == "PL" else to
@@ -541,6 +545,17 @@ def main(fast=False):
     assert h.pot_total() == 250 and h.legal()["raise"]["min_to"] == 200
     B.append({"case": "Tournament big-blind ante: BB posts 100 blind + 100 ante (dead)", "structure": "NL",
               "blinds": [50, 100], "bb_ante": 100, "pot_before_action": 250, "legal": h.legal()})
+    # regression checks (2026-09-29, defects R1/R2 found by the engine's betting differential; not vectors)
+    h = Hand([{"seat": 1, "stack": 40}, {"seat": 2, "stack": 5000}], 50, 100, "NL", heads_up=True)
+    assert h.to_act == 1, "R1: an all-in button must not act first heads-up"
+    h = Hand([{"seat": 1, "stack": 10000}, {"seat": 2, "stack": 10000}, {"seat": 3, "stack": 10000},
+              {"seat": 4, "stack": 1400}], 50, 100, "NL")
+    h.act("raise", 1000); h.act("allin"); h.act("fold"); h.act("fold")
+    try:
+        h.act("allin")
+        raise AssertionError("R2: all-in without a raise option must be rejected when the stack exceeds the call")
+    except ValueError:
+        pass
     vectors["betting"] = B
 
     # 5. pots and side pots

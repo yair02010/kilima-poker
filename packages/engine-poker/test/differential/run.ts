@@ -21,7 +21,7 @@ const bettingHands = Math.max(1, Math.round(count / 5));
 const t1 = process.hrtime.bigint();
 const betting = compareBetting(bettingHands, seed);
 process.stdout.write(
-  `betting differential: ${betting.hands} hands, ${betting.actions} actions (${betting.skipped} skipped: reference defect R1) ` +
+  `betting differential: ${betting.hands} hands, ${betting.actions} actions ` +
     `in ${(Number(process.hrtime.bigint() - t1) / 1e9).toFixed(1)} s — mismatches: ${betting.mismatches.length}\n`,
 );
 for (const m of betting.mismatches.slice(0, 20)) process.stdout.write(`  ${m}\n`);
