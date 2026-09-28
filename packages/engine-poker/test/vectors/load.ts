@@ -25,7 +25,6 @@ export interface BettingVector {
   structure: "NL" | "PL";
   blinds: [number, number];
   stacks?: number[];
-  // eslint-disable-next-line kilima/no-float-money -- integer JSON exchanged with poker_reference.py
   bb_ante?: number;
   actions?: [string, number | null][];
   to_act_index?: number;
@@ -38,7 +37,28 @@ export interface BettingVector {
     bet_or_raise?: "bet" | "raise";
   };
 }
+export interface PotsVector {
+  case: string;
+  contrib: Record<string, number>;
+  folded: number[];
+  returned: Record<string, number>;
+  pots: { amount: number; eligible: number[] }[];
+}
+export interface RakeVector {
+  case: string;
+  pots: { amount: number; eligible: number[] }[];
+  rake_bp: number;
+  cap: number;
+  saw_flop: boolean;
+  rake: number;
+  rake_per_pot: number[];
+  winners_by_strength?: string;
+  button_order?: number[];
+  won?: Record<string, number>;
+}
 export interface Vectors {
+  pots: PotsVector[];
+  rake: RakeVector[];
   betting: BettingVector[];
   version: string;
   evaluation: EvaluationVector[];

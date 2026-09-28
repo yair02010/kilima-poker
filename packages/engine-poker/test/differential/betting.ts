@@ -22,9 +22,7 @@ export interface BettingCase {
   sb: number;
   bb: number;
   structure: Structure;
-  // eslint-disable-next-line kilima/no-float-money -- integer JSON exchanged with poker_reference.py
   ante: number;
-  // eslint-disable-next-line kilima/no-float-money -- integer JSON exchanged with poker_reference.py
   bbAnte: number;
   actions: [string, number | null][];
 }
@@ -41,7 +39,6 @@ interface RefStep {
 interface RefResult {
   steps: RefStep[];
   end: string | null;
-  // eslint-disable-next-line kilima/no-float-money -- integer JSON exchanged with poker_reference.py
   pot: number;
   stacks: number[];
 }

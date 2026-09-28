@@ -15,6 +15,17 @@ Next:         the next slice or WP that is now ready
 Hub:          {WP} → status, progress %
 -->
 
+## 2026-09-29 — WP-06 slice 2: Pots, rake and showdown   (PR pending)
+Summary for the product owner (Hebrew): המנוע משחק עכשיו יד שלמה עד הסוף: מחזיר הימור שאף אחד לא השווה, בונה קופה ראשית וקופות צד כשיש all-in בגדלים שונים, לוקח rake לפי אחוז עם תקרה (ובלי rake אם אין פלופ), מכריע מי ניצח בכל קופה, מחלק תיקו כולל יחידה אי-זוגית לשחקן הראשון משמאל לדילר, ומחשב את היתרות הסופיות. כל וקטורי הקופות וה-rake עוברים, ו-20,000 ידיים שלמות תואמות למימוש הייחוס עד היחידה האחרונה.
+Built:        packages/engine-poker/src/hand/pots.ts (returnUncalled, buildPots, computeRake, distribute), src/hand/result.ts (handResult, show order, mustShow); TableConfig.rake and straightBeatsTrips; pots/rake vectors harness; settlement differential (Python bridge)
+Tested:       engine-vectors: 3/3 pots + 3/3 rake/distribution vectors ✓ (all 41 vectors in test_vectors.json except spin now pass) · 111 engine tests (fold-out no rake + uncalled return, showdown with rake, split with odd unit, side pots with all-ins and exposure, river-aggressor show order) · settlement differential: 20,000 random finished hands (17,755 showdowns; nlhe, plo4, plo5, short deck ± straightBeatsTrips; with/without rake and antes) → 0 mismatches in returned, pots, rake per pot and amounts won; chips conserved in every hand · evaluation 100,000 and betting 19,889 hands still 0 mismatches
+Done when:    met — all pot, rake and odd-chip vectors pass
+Decisions:    3 entries (show rules, rake config per hand, JSON-number harness override)
+Open:         10^6-hand property profile and latency budget report (slice 3); spin paytable vector (tournaments WP)
+Needs you:    push, PR, green, merge; approval for reference defect R1 fix still open
+Next:         WP-06 slice 3 — Property tests at scale
+Hub:          WP-06 → In progress, 67%
+
 ## 2026-09-29 — WP-06 slice 1: Hand state machine and legality   (PR pending)
 Summary for the product owner (Hebrew): המנוע יודע עכשיו לנהל יד שלמה: מיקומים ודילר, בליינדים ואנטה, חלוקת קלפים לפי הסדר הנכון, סבבי הימורים ברחובות (פלופ, טרן, ריבר), תור נכון (כולל ראש בראש), מה מותר לכל שחקן (NL ו-PL, רייז מינימלי, all-in קצר שלא פותח מחדש), ריצה אוטומטית של הלוח כשכולם all-in, וטיימאאוט. כל 7 וקטורי ההימורים עוברים, ו-20,000 ידיים אקראיות תואמות למימוש הייחוס בכל צעד. מצאתי שני מקרי קצה שבהם מימוש הייחוס טועה – המנוע פועל לפי המסמכים, וצריך את אישורך לתקן את הייחוס.
 Built:        packages/engine-poker/src/hand (types.ts, hand.ts): createHand, legalActions, applyAction, timeout, potTotal, isComplete; betting vectors harness; betting differential (Python bridge to poker_reference.Hand); benchmark for apply()
