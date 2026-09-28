@@ -60,6 +60,8 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Vitest (all packages)
         run: pnpm test
+      - name: Engine vectors (test_vectors.json)
+        run: pnpm vectors
 
   dossier:
     name: Dossier checks

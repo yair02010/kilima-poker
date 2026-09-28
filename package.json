@@ -13,7 +13,8 @@
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
     "format": "prettier --write .",
-    "build": "turbo run build"
+    "build": "turbo run build",
+    "vectors": "pnpm --filter @kilima/engine-poker vectors"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

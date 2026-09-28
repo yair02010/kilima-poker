@@ -1,0 +1,20 @@
+{
+  "name": "@kilima/engine-poker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Pure poker engine: cards, hand evaluation, betting, pots (KP-ENG-06, KP-HBK-11). Certified scope.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "vectors": "vitest run test/vectors",
+    "bench": "tsx bench/evaluate.bench.ts"
+  },
+  "devDependencies": {
+    "fast-check": "^4.10.2"
+  }
+}

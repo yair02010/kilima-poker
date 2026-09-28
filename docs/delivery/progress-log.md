@@ -15,6 +15,17 @@ Next:         the next slice or WP that is now ready
 Hub:          {WP} → status, progress %
 -->
 
+## 2026-09-28 — WP-05 slice 1: Cards and Hold'em evaluator   (PR pending)
+Summary for the product owner (Hebrew): התחלנו את מנוע הפוקר. יש ייצוג קלפים וחפיסות (52 ו-36), ומעריך ידיים ל-Hold'em שמוצא את חמשת הקלפים הטובים ביותר מתוך 7 ומשווה בין שחקנים. כל וקטורי ה-Hold'em מהקובץ הרשמי עוברים, ובבדיקה מול מימוש הייחוס ב-Python על 20,000 ידיים אקראיות – אפס הבדלים. זמן: כ-40 מיקרו-שניות ל-showdown של 9 שחקנים (התקציב 50).
+Built:        packages/engine-poker: cards.ts, rules/ranking.ts, eval/five.ts, eval/best.ts, index.ts, README, bench/evaluate.bench.ts; test/vectors harness (`pnpm vectors`, CI step "Engine vectors")
+Tested:       engine-vectors: 10/10 Hold'em evaluation vectors (category + exact best5) and 5/5 Hold'em comparison vectors ✓ (10 Omaha/Short Deck evaluation + 3 comparison vectors pending, marked todo for slice 2) · 39 engine tests incl. fast-check properties (order invariance, best ≥ any subset, suit symmetry; 2,000 runs each) · ad-hoc differential run: 20,000 random 7-card hands vs poker_reference.py → 0 mismatches in category and best5 · bench ≈ 4.5 µs per 7-card hand · pnpm lint ✓ typecheck ✓ · all 180 tests green
+Done when:    met — all Hold'em evaluation and comparison vectors pass
+Decisions:    4 entries in docs/delivery/decisions.md (combinatorial evaluator within budget, value encoding, import style, stacked branch)
+Open:         Omaha and Short Deck vectors (slice 2); exhaustive frequency and committed differential test (slice 3)
+Needs you:    push; merge WP-01 PRs first, then this one
+Next:         WP-05 slice 2 — Omaha and Short Deck
+Hub:          WP-05 → In progress, 33%
+
 ## 2026-09-28 — WP-01 slice 3: CI pipeline   (PR pending)
 Summary for the product owner (Hebrew): נבנה תהליך CI ב-GitHub Actions שרץ על כל PR ועל main: בדיקות סטטיות (כולל ששת כללי Kilima), בדיקות יחידה, בדיקות התיעוד, סריקת סודות ותלויות, ובניית image לשירות הדוגמה – עם בדיקת עשן, סריקת Trivy, ‏SBOM, חתימת cosign ו-provenance. ה-image נשמר ב-GHCR. אחרי ה-push תראה ב-PR חמישה checks; צריך רק להפעיל הגנה על main.
 Built:        .github/workflows/ci.yml (jobs: Static checks, Unit tests, Dossier checks, Security, Image (sample)); tools/build-service.ts (esbuild bundle); services/sample/Dockerfile (distroless Node 24, non-root) + .dockerignore; `pnpm build` via Turborepo; tools/requirements-docs.txt
