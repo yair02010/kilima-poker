@@ -1,0 +1,30 @@
+{
+  "hands": 1000000,
+  "seeds": [
+    1,
+    1000000
+  ],
+  "chunks": 5,
+  "seconds": 368.2,
+  "actions": 9518030,
+  "illegalAttemptsRejected": 2380030,
+  "byGame": {
+    "plo4": 250377,
+    "nlhe": 374692,
+    "plo5": 125789,
+    "plo6": 124519,
+    "shortdeck": 124623
+  },
+  "byStatus": {
+    "showdown": 882737,
+    "complete": 117263
+  },
+  "applyActionMicros": {
+    "samples": 475742,
+    "p50_max_of_chunks": 1.24,
+    "p99_max_of_chunks": 5.624,
+    "budgetP99": 20
+  },
+  "invariantsBroken": 0,
+  "machine": "Cowork build VM, 2 vCPU, Node 24.21, 2026-09-29"
+}
