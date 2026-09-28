@@ -3,8 +3,8 @@
 # bundle on a distroless Node 24 base running as non-root. Build context: repository root.
 #   docker build -f services/sample/Dockerfile -t kilima/sample .
 
-ARG NODE_IMAGE=node:24-bookworm-slim
-ARG RUNTIME_IMAGE=gcr.io/distroless/nodejs24-debian12:nonroot
+ARG NODE_IMAGE=node:24-trixie-slim
+ARG RUNTIME_IMAGE=gcr.io/distroless/nodejs24-debian13:nonroot
 
 FROM ${NODE_IMAGE} AS build
 ENV PNPM_HOME=/pnpm PATH=/pnpm:$PATH CI=true

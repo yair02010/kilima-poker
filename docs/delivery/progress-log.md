@@ -28,7 +28,7 @@ Hub:          WP-05 → In progress, 33%
 
 ## 2026-09-28 — WP-01 slice 3: CI pipeline   (PR pending)
 Summary for the product owner (Hebrew): נבנה תהליך CI ב-GitHub Actions שרץ על כל PR ועל main: בדיקות סטטיות (כולל ששת כללי Kilima), בדיקות יחידה, בדיקות התיעוד, סריקת סודות ותלויות, ובניית image לשירות הדוגמה – עם בדיקת עשן, סריקת Trivy, ‏SBOM, חתימת cosign ו-provenance. ה-image נשמר ב-GHCR. אחרי ה-push תראה ב-PR חמישה checks; צריך רק להפעיל הגנה על main.
-Built:        .github/workflows/ci.yml (jobs: Static checks, Unit tests, Dossier checks, Security, Image (sample)); tools/build-service.ts (esbuild bundle); services/sample/Dockerfile (distroless Node 24, non-root) + .dockerignore; `pnpm build` via Turborepo; tools/requirements-docs.txt
+Built:        .github/workflows/ci.yml (jobs: Static checks, Unit tests, Dossier checks, Security, Image (sample)); tools/build-service.ts (esbuild bundle); services/sample/Dockerfile (distroless Node 24 (Debian 13), non-root) + .dockerignore; `pnpm build` via Turborepo; tools/requirements-docs.txt
 Tested:       actionlint 1.7.12 ✓ · pnpm lint ✓ · typecheck ✓ · 141 tests ✓ · pnpm audit --prod: 0 known vulnerabilities · bundle runs alone from an empty folder (no node_modules): /healthz 200, SIGTERM → exit clean · Docker build steps rehearsed locally (frozen install with filters + bundle) — the real image build runs first in GitHub Actions (no Docker in the build VM)
 Done when:    pending — needs the first run on GitHub: all checks green and a signed image in GHCR
 Decisions:    6 entries in docs/delivery/decisions.md (bundle + distroless, GHCR until ECR, publish on same-repo PRs, keyless signing + SBOM + provenance, stages deferred, docs tool deps)
