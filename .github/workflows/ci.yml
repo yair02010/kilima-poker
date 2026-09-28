@@ -150,14 +150,24 @@ jobs:
           curl -fsS http://localhost:8080/version
           docker stop -t 10 sample
           docker logs sample
-      - name: Image scan (Trivy, critical/high block)
+      - name: Image scan (Trivy)
         uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           image-ref: kilima-sample:ci
           scanners: vuln
           severity: CRITICAL,HIGH
           ignore-unfixed: true
-          exit-code: "1"
+          format: json
+          output: trivy-sample.json
+          exit-code: "0"
+      - name: Image scan gate (critical/high with a fix block)
+        run: |
+          jq -r '.Results[]? | .Target as $t | .Vulnerabilities[]? |
+            "::error title=\(.VulnerabilityID) \(.Severity)::\($t) \(.PkgName) \(.InstalledVersion) → fixed in \(.FixedVersion) — \(.Title // "")"' \
+            trivy-sample.json | tee trivy-findings.txt
+          count=$(wc -l < trivy-findings.txt)
+          echo "Trivy: $count critical/high vulnerabilities with a fix available"
+          test "$count" -eq 0
       - name: SBOM (SPDX)
         uses: anchore/sbom-action@3ad7283483fc7af8ff2b4ea19663c2d5ca935e26 # v0.24.2
         with:
