@@ -12,12 +12,13 @@ Mobile-first online poker platform for African markets: Play Money and licensed 
 
 ## Status
 
-Stage S1 (engine first). WP-01 slice 1 — the workspace skeleton — is in place: `packages/shared` and the reference service `services/sample`.
+Stage S1 (engine first). WP-01 is in place: workspace, `packages/shared`, the reference service `services/sample`, the Kilima lint rules (`packages/eslint-plugin-kilima`) and CI (`.github/workflows/ci.yml`).
 
 ```
 corepack enable          # pnpm 9
 pnpm install
 pnpm lint && pnpm typecheck && pnpm test
+pnpm build               # production bundles (dist/main.mjs per service)
 pnpm dev                 # starts services/sample on http://localhost:3999 (/healthz, /readyz, /version; /metrics on :9464)
 ```
 

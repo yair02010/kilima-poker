@@ -12,12 +12,14 @@
     "lint": "turbo run lint && prettier --check .",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "build": "turbo run build"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@kilima/eslint-plugin": "workspace:*",
     "@types/node": "^24.19.0",
+    "esbuild": "^0.28.2",
     "eslint": "^10.11.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-security": "^4.1.0",
