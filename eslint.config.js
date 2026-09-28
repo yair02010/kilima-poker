@@ -1,5 +1,6 @@
-// Root ESLint flat config (KP-ENG-11 §2). Kilima custom rules arrive in WP-01 slice 2.
+// Root ESLint flat config (KP-ENG-11 §2) with the six CI-blocking Kilima rules (§2.1).
 import js from "@eslint/js";
+import kilima from "@kilima/eslint-plugin";
 import prettier from "eslint-config-prettier";
 import security from "eslint-plugin-security";
 import globals from "globals";
@@ -35,6 +36,41 @@ export default tseslint.config(
   {
     files: ["**/config.ts", "**/config/*.ts"],
     rules: { "no-restricted-properties": "off" },
+  },
+  // Kilima rules (KP-ENG-11 §2.1) — every TypeScript source in the product.
+  {
+    files: ["apps/**/*.ts", "apps/**/*.tsx", "services/**/*.ts", "packages/**/*.ts", "tools/**/*.ts"],
+    plugins: { kilima },
+    rules: {
+      "kilima/no-float-money": "error",
+      "kilima/no-math-random": "error",
+      "kilima/no-raw-ledger-entries": "error",
+      "kilima/no-hole-cards-in-logs": "error",
+    },
+  },
+  {
+    files: ["packages/engine-*/**/*.ts"],
+    ignores: ["packages/engine-*/test/**", "packages/engine-*/**/*.test.ts"],
+    rules: { "kilima/no-io-in-engine": "error" },
+  },
+  {
+    files: ["services/**/*.ts"],
+    rules: { "kilima/no-direct-db-cross-schema": "error" },
+  },
+  // Simulation bots may use non-cryptographic randomness; they never deal real cards (KP-QA-04).
+  {
+    files: ["tools/simbots/**/*.ts"],
+    rules: { "kilima/no-math-random": "off" },
+  },
+  // The rule tests hold forbidden code as fixture strings.
+  {
+    files: ["packages/eslint-plugin-kilima/test/**/*.ts"],
+    rules: {
+      "kilima/no-raw-ledger-entries": "off",
+      "kilima/no-hole-cards-in-logs": "off",
+      "kilima/no-float-money": "off",
+      "kilima/no-math-random": "off",
+    },
   },
   {
     files: ["**/*.test.ts", "**/test/**/*.ts"],
