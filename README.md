@@ -12,7 +12,14 @@ Mobile-first online poker platform for African markets: Play Money and licensed 
 
 ## Status
 
-Stage S0 (set-up). The monorepo workspace, tooling and CI arrive in WP-01. Until then there is no code to build or run.
+Stage S1 (engine first). WP-01 slice 1 — the workspace skeleton — is in place: `packages/shared` and the reference service `services/sample`.
+
+```
+corepack enable          # pnpm 9
+pnpm install
+pnpm lint && pnpm typecheck && pnpm test
+pnpm dev                 # starts services/sample on http://localhost:3999 (/healthz, /readyz, /version; /metrics on :9464)
+```
 
 ## Toolchain
 
