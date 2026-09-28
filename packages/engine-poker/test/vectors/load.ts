@@ -20,7 +20,26 @@ export interface ComparisonVector {
   winners: string[];
   note: string;
 }
+export interface BettingVector {
+  case: string;
+  structure: "NL" | "PL";
+  blinds: [number, number];
+  stacks?: number[];
+  // eslint-disable-next-line kilima/no-float-money -- integer JSON exchanged with poker_reference.py
+  bb_ante?: number;
+  actions?: [string, number | null][];
+  to_act_index?: number;
+  pot_before_action?: number;
+  legal: {
+    fold: boolean;
+    check: boolean;
+    call: number | null;
+    raise: { min_to: number; max_to: number } | null;
+    bet_or_raise?: "bet" | "raise";
+  };
+}
 export interface Vectors {
+  betting: BettingVector[];
   version: string;
   evaluation: EvaluationVector[];
   comparison: ComparisonVector[];

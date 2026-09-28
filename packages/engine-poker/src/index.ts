@@ -8,3 +8,5 @@ export { categoryOf, evaluate5, type HandValue } from "./eval/five.js";
 export { bestOfAny, evaluateHoldem, winners, type Evaluation } from "./eval/best.js";
 export { evaluateOmaha } from "./eval/omaha.js";
 export { evaluateHand, HOLE_CARDS, rankingRuleFor, type EvaluateOptions, type Game } from "./eval/game.js";
+export * from "./hand/types.js";
+export { applyAction, createHand, isComplete, legalActions, potTotal, timeout } from "./hand/hand.js";

@@ -2,7 +2,7 @@
 
 The pure poker engine (KP-ENG-06, KP-HBK-11). **Certified scope** — changes to evaluation, dealing order, pots or rake need a certification impact assessment (KP-ENG-13 §7). No I/O, clock or randomness: the `kilima/no-io-in-engine` lint rule enforces it.
 
-Status: WP-05 complete — cards; Hold'em, Omaha 4/5/6 and Short Deck evaluation; exhaustive frequency self-check; differential test against the reference. Betting and pots follow in WP-06.
+Status: WP-05 complete (evaluation). WP-06 slice 1 — the hand state machine and betting legality. Pots, rake and showdown (slice 2) and property tests at scale (slice 3) follow.
 
 | Module             | What                                                                                      |
 | ------------------ | ----------------------------------------------------------------------------------------- |
