@@ -1,8 +1,9 @@
 /**
- * Evaluator benchmark (KP-HBK-11 §7: NLHE 9-player showdown < 50 µs). Informational until the GA gate.
+ * Evaluator benchmarks (KP-HBK-11 §7: NLHE 9-player showdown < 50 µs; PLO6 6 players < 2 ms).
+ * Informational until the GA gate.
  * Run: pnpm --filter @kilima/engine-poker bench
  */
-import { bestOfAny, DECK_52, type Card } from "../src/index.js";
+import { bestOfAny, DECK_52, evaluateOmaha, type Card } from "../src/index.js";
 
 // Deterministic sample of 7-card hands (LCG; benchmarks only — never game randomness).
 function sample(count: number): Card[][] {
@@ -35,4 +36,20 @@ const showdownUs = perHandUs * 9;
 process.stdout.write(
   `best-of-7: ${perHandUs.toFixed(2)} µs/hand · 9-player showdown ≈ ${showdownUs.toFixed(1)} µs ` +
     `(budget 50 µs: ${showdownUs < 50 ? "within" : "OVER"}) [${sink & 1}]\n`,
+);
+
+// PLO6: 6 hole + 5 board cards per player.
+const ploHands = sample(20_000).map((h, i) => {
+  return {
+    hole: h.slice(0, 6),
+    board: [...DECK_52].filter((c) => !h.slice(0, 6).includes(c)).slice(i % 40, (i % 40) + 5),
+  };
+});
+for (const p of ploHands.slice(0, 2_000)) evaluateOmaha(p.hole, p.board);
+const t2 = process.hrtime.bigint();
+for (const p of ploHands) sink ^= evaluateOmaha(p.hole, p.board).value;
+const ploUs = Number(process.hrtime.bigint() - t2) / ploHands.length / 1000;
+process.stdout.write(
+  `PLO6 best hand: ${ploUs.toFixed(1)} µs/player · 6-player showdown ≈ ${(ploUs * 6).toFixed(0)} µs ` +
+    `(budget 2000 µs: ${ploUs * 6 < 2000 ? "within" : "OVER"}) [${sink & 1}]\n`,
 );

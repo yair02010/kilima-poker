@@ -29,5 +29,5 @@ export interface Vectors {
 
 export const vectors = JSON.parse(readFileSync(VECTORS_PATH, "utf8")) as Vectors;
 
-/** Games covered so far. Omaha and Short Deck arrive in WP-05 slice 2. */
-export const SUPPORTED_GAMES = new Set(["nlhe"]);
+/** Games covered by the engine. */
+export const SUPPORTED_GAMES = new Set(["nlhe", "plo4", "plo5", "plo6", "shortdeck"]);

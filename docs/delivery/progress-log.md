@@ -15,6 +15,17 @@ Next:         the next slice or WP that is now ready
 Hub:          {WP} → status, progress %
 -->
 
+## 2026-09-28 — WP-05 slice 2: Omaha and Short Deck   (PR pending)
+Summary for the product owner (Hebrew): המנוע מעריך עכשיו גם Omaha (4, 5 ו-6 קלפים – בדיוק שניים מהיד ושלושה מהלוח) ו-Short Deck (צבע מנצח פול האוס, שלישייה מנצחת רצף, A-6-7-8-9 הרצף הנמוך), כולל האפשרות לשולחנות שבהם רצף מנצח שלישייה. כל 28 וקטורי ההערכה וההשוואה בקובץ הרשמי עוברים, ו-20,000 ידיים אקראיות תואמות למימוש הייחוס בלי אף הבדל.
+Built:        packages/engine-poker: eval/omaha.ts, eval/game.ts (evaluateHand, HOLE_CARDS, rankingRuleFor); vectors harness now runs every game; bench adds PLO6
+Tested:       engine-vectors: 20/20 evaluation + 8/8 comparison vectors ✓ (no todo left) · 62 engine tests (Omaha two-plus-three rule, flop/turn, sizes; Short Deck order, A-6-7-8-9, straightBeatsTrips option, rank check) · ad-hoc differential vs poker_reference.py: 4,000 hands each for plo4, plo5, plo6, shortdeck, shortdeck+straightBeatsTrips → 0 mismatches (category and exact best5) · bench: NLHE 9-player ≈ 43 µs (budget 50), PLO6 6-player ≈ 164 µs (budget 2 ms)
+Done when:    met — all Omaha and Short Deck vectors pass
+Decisions:    best5 compared as a set in the harness (as the reference does)
+Open:         exhaustive frequency self-check and committed differential test (slice 3)
+Needs you:    push, open the PR, wait for green, merge
+Next:         WP-05 slice 3 — Frequency self-check and differential test
+Hub:          WP-05 → In progress, 67%
+
 ## 2026-09-28 — WP-05 slice 1: Cards and Hold'em evaluator   (PR pending)
 Summary for the product owner (Hebrew): התחלנו את מנוע הפוקר. יש ייצוג קלפים וחפיסות (52 ו-36), ומעריך ידיים ל-Hold'em שמוצא את חמשת הקלפים הטובים ביותר מתוך 7 ומשווה בין שחקנים. כל וקטורי ה-Hold'em מהקובץ הרשמי עוברים, ובבדיקה מול מימוש הייחוס ב-Python על 20,000 ידיים אקראיות – אפס הבדלים. זמן: כ-40 מיקרו-שניות ל-showdown של 9 שחקנים (התקציב 50).
 Built:        packages/engine-poker: cards.ts, rules/ranking.ts, eval/five.ts, eval/best.ts, index.ts, README, bench/evaluate.bench.ts; test/vectors harness (`pnpm vectors`, CI step "Engine vectors")
