@@ -60,8 +60,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Vitest (all packages)
         run: pnpm test
-      - name: Engine vectors (test_vectors.json)
+      - name: Engine vectors (test_vectors.json, exhaustive frequencies)
         run: pnpm vectors
+      - name: Engine differential (10^5 hands vs poker_reference.py)
+        run: pnpm --filter @kilima/engine-poker differential
 
   dossier:
     name: Dossier checks

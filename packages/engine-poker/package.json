@@ -12,7 +12,8 @@
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
     "vectors": "vitest run test/vectors",
-    "bench": "tsx bench/evaluate.bench.ts"
+    "bench": "tsx bench/evaluate.bench.ts",
+    "differential": "tsx test/differential/run.ts"
   },
   "devDependencies": {
     "fast-check": "^4.10.2"
