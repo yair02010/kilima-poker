@@ -15,24 +15,13 @@ import {
   HOLE_CARDS,
   parseCards,
 } from "../../src/index.js";
+import { seeded } from "./seeded.js";
 
 export interface DiffCase {
   game: Game;
   hole: string;
   board: string;
   straightBeatsTrips: boolean;
-}
-
-/** Mulberry32 — small seeded PRNG for reproducible test data only. */
-function seeded(seed: number): (n: number) => number {
-  let s = seed >>> 0;
-  return (n: number) => {
-    s = (s + 0x6d2b79f5) >>> 0;
-    let t = s;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return (((t ^ (t >>> 14)) >>> 0) % n) >>> 0;
-  };
 }
 
 /** Mix per 100 hands: 40 nlhe, 20 shortdeck (5 of them with straightBeatsTrips), 20 plo4, 10 plo5, 10 plo6. */

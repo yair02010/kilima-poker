@@ -15,6 +15,17 @@ Next:         the next slice or WP that is now ready
 Hub:          {WP} → status, progress %
 -->
 
+## 2026-09-29 — WP-06 slice 1: Hand state machine and legality   (PR pending)
+Summary for the product owner (Hebrew): המנוע יודע עכשיו לנהל יד שלמה: מיקומים ודילר, בליינדים ואנטה, חלוקת קלפים לפי הסדר הנכון, סבבי הימורים ברחובות (פלופ, טרן, ריבר), תור נכון (כולל ראש בראש), מה מותר לכל שחקן (NL ו-PL, רייז מינימלי, all-in קצר שלא פותח מחדש), ריצה אוטומטית של הלוח כשכולם all-in, וטיימאאוט. כל 7 וקטורי ההימורים עוברים, ו-20,000 ידיים אקראיות תואמות למימוש הייחוס בכל צעד. מצאתי שני מקרי קצה שבהם מימוש הייחוס טועה – המנוע פועל לפי המסמכים, וצריך את אישורך לתקן את הייחוס.
+Built:        packages/engine-poker/src/hand (types.ts, hand.ts): createHand, legalActions, applyAction, timeout, potTotal, isComplete; betting vectors harness; betting differential (Python bridge to poker_reference.Hand); benchmark for apply()
+Tested:       engine-vectors: 7/7 betting-legality vectors ✓ · 98 engine tests (positions and gaps, dealing order incl. heads-up, antes/short stacks, streets with burns, fold-out, all-in run-out, heads-up post-flop order, min bet/raise, PL all-in cap, errors leave state unchanged, immutability, timeouts; fast-check 1,000 random hands: chips conserved, no negative stacks, unique cards, always terminates) · betting differential: 19,889 random hands / 180,206 actions vs poker_reference.Hand → 0 mismatches (111 skipped: reference defect R1) · evaluation differential still 0/100,000 · apply() ≈ 1.2 µs per action (budget 20 µs)
+Done when:    met — all betting-legality vectors pass
+Decisions:    5 entries (reference defect R1, all-in without raise option, bet vs raise, player-count table, optional table features later)
+Open:         pots, uncalled bets, rake, showdown and awarding (slice 2); 10^6-hand property run (slice 3)
+Needs you:    approve fixing reference defect R1 (and the all-in semantics) in poker_reference.py — certified scope, second review
+Next:         WP-06 slice 2 — Pots, rake and showdown
+Hub:          WP-06 → In progress, 33%
+
 ## 2026-09-28 — WP-05 slice 3: Frequency self-check and differential test   (PR pending)
 Summary for the product owner (Hebrew): המעריך נבדק על כל 2,598,960 הידיים האפשריות בחפיסה רגילה ועל כל 376,992 הידיים ב-Short Deck – הספירה לכל קטגוריה זהה בדיוק לטבלה הרשמית. בנוסף, 100,000 ידיים אקראיות בכל המשחקים הושוו למימוש הייחוס ב-Python – אפס הבדלים. שתי הבדיקות רצות אוטומטית ב-CI. חבילת WP-05 (מעריך הידיים) הושלמה.
 Built:        test/vectors/frequency.test.ts; test/differential (reference_bridge.py, differential.ts, run.ts, quick-profile test); `differential` script; CI step "Engine differential"
