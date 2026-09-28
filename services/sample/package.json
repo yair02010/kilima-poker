@@ -9,7 +9,9 @@
     "start": "tsx --env-file-if-exists=.env src/main.ts",
     "lint": "eslint .",
     "typecheck": "tsc -p tsconfig.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build": "node ../../tools/build-service.ts",
+    "start:dist": "node --enable-source-maps --env-file-if-exists=.env dist/main.mjs"
   },
   "dependencies": {
     "@kilima/shared": "workspace:*",

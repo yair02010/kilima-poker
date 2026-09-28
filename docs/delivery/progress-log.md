@@ -15,6 +15,17 @@ Next:         the next slice or WP that is now ready
 Hub:          {WP} → status, progress %
 -->
 
+## 2026-09-28 — WP-01 slice 3: CI pipeline   (PR pending)
+Summary for the product owner (Hebrew): נבנה תהליך CI ב-GitHub Actions שרץ על כל PR ועל main: בדיקות סטטיות (כולל ששת כללי Kilima), בדיקות יחידה, בדיקות התיעוד, סריקת סודות ותלויות, ובניית image לשירות הדוגמה – עם בדיקת עשן, סריקת Trivy, ‏SBOM, חתימת cosign ו-provenance. ה-image נשמר ב-GHCR. אחרי ה-push תראה ב-PR חמישה checks; צריך רק להפעיל הגנה על main.
+Built:        .github/workflows/ci.yml (jobs: Static checks, Unit tests, Dossier checks, Security, Image (sample)); tools/build-service.ts (esbuild bundle); services/sample/Dockerfile (distroless Node 24, non-root) + .dockerignore; `pnpm build` via Turborepo; tools/requirements-docs.txt
+Tested:       actionlint 1.7.12 ✓ · pnpm lint ✓ · typecheck ✓ · 141 tests ✓ · pnpm audit --prod: 0 known vulnerabilities · bundle runs alone from an empty folder (no node_modules): /healthz 200, SIGTERM → exit clean · Docker build steps rehearsed locally (frozen install with filters + bundle) — the real image build runs first in GitHub Actions (no Docker in the build VM)
+Done when:    pending — needs the first run on GitHub: all checks green and a signed image in GHCR
+Decisions:    6 entries in docs/delivery/decisions.md (bundle + distroless, GHCR until ECR, publish on same-repo PRs, keyless signing + SBOM + provenance, stages deferred, docs tool deps)
+Open:         integration/contract/Semgrep stages when there is something to check; root .github CODEOWNERS and PR template for code
+Needs you:    push the branch, open the PR; after it is green, turn on branch protection for main (checklist in the session reply)
+Next:         WP-04 slice 1 — Contracts package (and WP-05 slice 1 can run in parallel)
+Hub:          WP-01 → In review, 100% once CI is green
+
 ## 2026-09-27 — WP-01 slice 2: Custom lint rules   (PR pending)
 Summary for the product owner (Hebrew): ששת כללי ה-lint של Kilima פעילים ומכשילים את הבנייה: כסף כ-number/float, ‏Math.random, ‏I/O או שעון בתוך מנוע המשחק, כתיבה ישירה לטבלאות ה-ledger, קלפים בלוגים, ושאילתה לסכמה של שירות אחר. לכל כלל יש דוגמאות שעוברות ודוגמאות שנכשלות – 113 בדיקות ירוקות, ושירות הדוגמה עובר נקי.
 Built:        packages/eslint-plugin-kilima (no-float-money, no-math-random, no-io-in-engine, no-raw-ledger-entries, no-hole-cards-in-logs, no-direct-db-cross-schema; README); root eslint.config.js wires each rule to its folders
