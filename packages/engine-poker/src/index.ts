@@ -10,3 +10,5 @@ export { evaluateOmaha } from "./eval/omaha.js";
 export { evaluateHand, HOLE_CARDS, rankingRuleFor, type EvaluateOptions, type Game } from "./eval/game.js";
 export * from "./hand/types.js";
 export { applyAction, createHand, isComplete, legalActions, potTotal, timeout } from "./hand/hand.js";
+export * from "./hand/pots.js";
+export * from "./hand/result.js";

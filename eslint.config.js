@@ -66,6 +66,12 @@ export default tseslint.config(
     files: ["tools/simbots/**/*.ts"],
     rules: { "kilima/no-math-random": "off" },
   },
+  // Engine vector and differential harnesses exchange integer JSON (numbers) with poker_reference.py and
+  // convert to bigint at the boundary; the engine code itself stays under no-float-money.
+  {
+    files: ["packages/engine-*/test/vectors/**/*.ts", "packages/engine-*/test/differential/**/*.ts"],
+    rules: { "kilima/no-float-money": "off" },
+  },
   // The rule tests hold forbidden code as fixture strings.
   {
     files: ["packages/eslint-plugin-kilima/test/**/*.ts"],

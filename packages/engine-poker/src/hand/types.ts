@@ -3,6 +3,7 @@
  */
 import type { Card } from "../cards.js";
 import type { Game } from "../eval/game.js";
+import type { RakeConfig } from "./pots.js";
 
 export type Structure = "NL" | "PL";
 export type Street = "preflop" | "flop" | "turn" | "river" | "showdown";
@@ -18,6 +19,10 @@ export interface TableConfig {
   ante?: bigint;
   /** Big-blind ante: the big blind pays this ante for the whole table (tournaments). */
   bigBlindAnte?: bigint;
+  /** Cash-game rake for this hand (KP-ENG-06 §10); absent = no rake (tournaments, play money options). */
+  rake?: RakeConfig;
+  /** Short Deck table option: straight beats three of a kind (ADR-0016). */
+  straightBeatsTrips?: boolean;
 }
 
 export interface PlayerInput {

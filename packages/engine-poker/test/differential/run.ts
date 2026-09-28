@@ -4,6 +4,7 @@
  * Exit code 1 on any mismatch. Used by CI (step "Engine differential").
  */
 import { compareBetting } from "./betting.js";
+import { compareSettlement } from "./settle.js";
 import { compare, generateCases } from "./differential.js";
 
 const count = Number(process.argv[2] ?? 100_000);
@@ -24,4 +25,12 @@ process.stdout.write(
     `in ${(Number(process.hrtime.bigint() - t1) / 1e9).toFixed(1)} s — mismatches: ${betting.mismatches.length}\n`,
 );
 for (const m of betting.mismatches.slice(0, 20)) process.stdout.write(`  ${m}\n`);
-process.exitCode = mismatches.length === 0 && betting.mismatches.length === 0 ? 0 : 1;
+const t2 = process.hrtime.bigint();
+const settle = compareSettlement(bettingHands, seed);
+process.stdout.write(
+  `settlement differential: ${settle.hands} finished hands (${settle.showdowns} showdowns) ` +
+    `in ${(Number(process.hrtime.bigint() - t2) / 1e9).toFixed(1)} s — mismatches: ${settle.mismatches.length}\n`,
+);
+for (const m of settle.mismatches.slice(0, 20)) process.stdout.write(`  ${m}\n`);
+process.exitCode =
+  mismatches.length === 0 && betting.mismatches.length === 0 && settle.mismatches.length === 0 ? 0 : 1;
