@@ -4,6 +4,10 @@ Small decisions taken during build sessions that do not need an ADR (KP-HBK-23 �
 
 | Date | WP / slice | Decision | Why | Revisit when |
 |---|---|---|---|---|
+| 2026-09-28 | WP-05/1 | Evaluator v0 is combinatorial (best of C(n,5) with an allocation-light 5-card evaluator), not lookup tables. | Measured 4.5 µs per 7-card hand → ≈ 40 µs for a 9-player showdown on the 2-core build VM, inside the 50 µs budget (KP-HBK-11 §7); exact `best5` parity with the reference is trivial this way. Lookup tables remain an optimisation behind the same API. | Benchmark misses budget on CI hardware, or at GA gate |
+| 2026-09-28 | WP-05/1 | Hand value = `strength << 24 \| category << 20 \| tiebreak`; one integer compares hands for any ranking rule. | Fast comparisons; category decodable for display and records. | — |
+| 2026-09-28 | WP-05/1 | Engine packages use `.js` import specifiers (like `shared`); `security/detect-object-injection` is off in `packages/engine-*` (integer array indexes). | Consumers type-check engine sources with their own tsconfig. | — |
+| 2026-09-28 | WP-05/1 | Branch stacked on `wp-01/3-ci-pipeline` (WP-01 PRs not merged yet). | Keep the critical path moving. | WP-01 merged |
 | 2026-09-28 | WP-01/3 | Services ship as one esbuild bundle (`dist/main.mjs`, ESM, all dependencies inlined) on `gcr.io/distroless/nodejs24-debian12:nonroot`; built by `tools/build-service.ts`. `esbuild` added (approved by the product owner). | Runtime image has no node_modules, shell or package manager; smallest attack surface (KP-OPS-01 §3 "distroless"). | If a dependency cannot be bundled (native addon) |
 | 2026-09-28 | WP-01/3 | Images go to GHCR (`ghcr.io/yair02010/kilima-sample`) until AWS exists; ECR in S4 (approved by the product owner). | No cloud account yet; GHCR is free and needs no set-up. | CLOUD-0 / S4 |
 | 2026-09-28 | WP-01/3 | Images are published and signed for pushes to main and for PRs from this repository (tags `sha-…`, `pr-N`, `main`); fork PRs build and scan only. | "Done when" asks for a signed image from a PR; forks get no write token. | — |

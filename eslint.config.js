@@ -50,8 +50,12 @@ export default tseslint.config(
   },
   {
     files: ["packages/engine-*/**/*.ts"],
-    ignores: ["packages/engine-*/test/**", "packages/engine-*/**/*.test.ts"],
-    rules: { "kilima/no-io-in-engine": "error" },
+    ignores: ["packages/engine-*/test/**", "packages/engine-*/bench/**", "packages/engine-*/**/*.test.ts"],
+    rules: {
+      "kilima/no-io-in-engine": "error",
+      // Engine hot paths index arrays with small integers (card ids, seat numbers), not user strings.
+      "security/detect-object-injection": "off",
+    },
   },
   {
     files: ["services/**/*.ts"],
@@ -73,10 +77,11 @@ export default tseslint.config(
     },
   },
   {
-    files: ["**/*.test.ts", "**/test/**/*.ts"],
+    files: ["**/*.test.ts", "**/test/**/*.ts", "**/bench/**/*.ts"],
     rules: {
       "@typescript-eslint/no-non-null-assertion": "off",
       "security/detect-object-injection": "off",
+      "security/detect-non-literal-fs-filename": "off",
     },
   },
   {
