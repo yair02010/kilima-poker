@@ -15,6 +15,17 @@ Next:         the next slice or WP that is now ready
 Hub:          {WP} → status, progress %
 -->
 
+## 2026-09-28 — WP-05 slice 3: Frequency self-check and differential test   (PR pending)
+Summary for the product owner (Hebrew): המעריך נבדק על כל 2,598,960 הידיים האפשריות בחפיסה רגילה ועל כל 376,992 הידיים ב-Short Deck – הספירה לכל קטגוריה זהה בדיוק לטבלה הרשמית. בנוסף, 100,000 ידיים אקראיות בכל המשחקים הושוו למימוש הייחוס ב-Python – אפס הבדלים. שתי הבדיקות רצות אוטומטית ב-CI. חבילת WP-05 (מעריך הידיים) הושלמה.
+Built:        test/vectors/frequency.test.ts; test/differential (reference_bridge.py, differential.ts, run.ts, quick-profile test); `differential` script; CI step "Engine differential"
+Tested:       52-card: 2,598,960 hands, all 9 category counts equal KP-HBK-11/test_vectors (0.8 s) · 36-card: 376,992 hands equal (flush 480, full house 1,728) · differential 100,000 hands (nlhe 40k, shortdeck 15k + 5k straightBeatsTrips, plo4 20k, plo5 10k, plo6 10k; seed 20260928) → 0 mismatches in category and exact best5 (19.9 s) · 65 engine tests · lint ✓ typecheck ✓
+Done when:    met — frequencies match exactly; differential test shows zero mismatches
+Decisions:    reference bridge at test time; quick vs full profile
+Open:         second independent open-source evaluator for the differential test (KP-HBK-11 §4) — not in this slice's goal
+Needs you:    push, PR, green, merge
+Next:         WP-06 slice 1 — Hand state machine and legality (critical path); WP-04 can run in parallel
+Hub:          WP-05 → Done, 100%
+
 ## 2026-09-28 — WP-05 slice 2: Omaha and Short Deck   (PR pending)
 Summary for the product owner (Hebrew): המנוע מעריך עכשיו גם Omaha (4, 5 ו-6 קלפים – בדיוק שניים מהיד ושלושה מהלוח) ו-Short Deck (צבע מנצח פול האוס, שלישייה מנצחת רצף, A-6-7-8-9 הרצף הנמוך), כולל האפשרות לשולחנות שבהם רצף מנצח שלישייה. כל 28 וקטורי ההערכה וההשוואה בקובץ הרשמי עוברים, ו-20,000 ידיים אקראיות תואמות למימוש הייחוס בלי אף הבדל.
 Built:        packages/engine-poker: eval/omaha.ts, eval/game.ts (evaluateHand, HOLE_CARDS, rankingRuleFor); vectors harness now runs every game; bench adds PLO6

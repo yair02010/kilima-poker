@@ -2,7 +2,7 @@
 
 The pure poker engine (KP-ENG-06, KP-HBK-11). **Certified scope** — changes to evaluation, dealing order, pots or rake need a certification impact assessment (KP-ENG-13 §7). No I/O, clock or randomness: the `kilima/no-io-in-engine` lint rule enforces it.
 
-Status: WP-05 slices 1–2 — cards; Hold'em, Omaha 4/5/6 and Short Deck evaluation. Frequency and differential tests (slice 3), betting and pots (WP-06) follow.
+Status: WP-05 complete — cards; Hold'em, Omaha 4/5/6 and Short Deck evaluation; exhaustive frequency self-check; differential test against the reference. Betting and pots follow in WP-06.
 
 | Module             | What                                                                                      |
 | ------------------ | ----------------------------------------------------------------------------------------- |
@@ -13,4 +13,4 @@ Status: WP-05 slices 1–2 — cards; Hold'em, Omaha 4/5/6 and Short Deck evalua
 
 `best5` reproduces `poker_reference.py` exactly (same combination order, first strictly best kept). The vectors file lists `best5` in a readable order and is compared as a set, as the reference itself does.
 
-Commands: `pnpm vectors` (all supported vectors in `docs/03-engineering/reference/test_vectors.json`), `pnpm --filter @kilima/engine-poker test`, `pnpm --filter @kilima/engine-poker bench`.
+Commands: `pnpm vectors` (vectors + exhaustive 52/36-card frequencies), `pnpm --filter @kilima/engine-poker differential [count] [seed]` (default 100,000 random hands vs `poker_reference.py`, needs `python3`), `pnpm --filter @kilima/engine-poker test`, `pnpm --filter @kilima/engine-poker bench`.
