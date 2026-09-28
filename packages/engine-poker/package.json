@@ -13,7 +13,8 @@
     "test": "vitest run",
     "vectors": "vitest run test/vectors",
     "bench": "tsx bench/evaluate.bench.ts",
-    "differential": "tsx test/differential/run.ts"
+    "differential": "tsx test/differential/run.ts",
+    "property": "tsx test/property/run.ts"
   },
   "devDependencies": {
     "fast-check": "^4.10.2"

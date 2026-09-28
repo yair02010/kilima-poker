@@ -15,6 +15,28 @@ Next:         the next slice or WP that is now ready
 Hub:          {WP} → status, progress %
 -->
 
+## 2026-09-29 — Fix: reference defects R1 and R2   (PR pending)
+Summary for the product owner (Hebrew): לפי אישורך תיקנתי את שני מקרי הקצה במימוש הייחוס ב-Python: ראש בראש, דילר שנכנס all-in מהבליינד כבר לא מקבל תור; ו-all-in כשמותר רק להשוות נדחה. קובץ הווקטורים נוצר מחדש ויצא זהה לגמרי, והמנוע לא השתנה. ההשוואה בין המנוע לייחוס רצה עכשיו על כל הידיים בלי שום החרגה – אפס הבדלים.
+Built:        docs/03-engineering/reference/poker_reference.py (_first_preflop heads-up skips an all-in button; act("allin") without a raise option only as a call for the whole stack; two regression asserts in the self-check); engine betting differential without exclusions
+Tested:       python3 poker_reference.py (full: 2,598,960-hand frequency self-check, all vectors, regression asserts) ✓ — test_vectors.json byte-identical · betting differential 20,000 hands / 180,311 actions, 0 excluded, 0 mismatches · settlement 20,000 and evaluation 100,000 hands 0 mismatches · 112 engine tests ✓
+Done when:    met — reference agrees with KP-ENG-06 and the engine on every generated hand
+Decisions:    R1/R2 resolved (decisions.md); certification impact: reference only, vectors unchanged
+Open:         second review of the reference change when an engineer joins (certified scope)
+Needs you:    push, PR, merge
+Next:         Stage S1 sprint review, then S2
+Hub:          WP-06 note updated
+
+## 2026-09-29 — WP-06 slice 3: Property tests at scale   (PR pending)
+Summary for the product owner (Hebrew): הרצנו מיליון ידיים אקראיות בכל המשחקים ובכל ההגדרות (2–9 שחקנים, NL/PL, אנטה, rake, סטאקים קצרים) ובדקנו אחרי כל פעולה: אף צ'יפ לא נוצר ולא נעלם, אין יתרה שלילית, רק פעולות חוקיות מתקבלות (2.4 מיליון ניסיונות לא חוקיים – כולם נדחו), כל יד מסתיימת, אין קלף כפול, קופה לא הולכת למי שקיפל, וה-rake תמיד בגבולות. אפס הפרות. זמן פעולה: p99 כ-5.6 מיקרו-שניות (התקציב 20). עם זה WP-06 ושלב המנוע (S1) גמורים.
+Built:        test/property/invariants.ts (random hand generator + 14 invariants), quick profile test (5,000 hands in pnpm test), test/property/run.ts (`property` script, latency p50/p99, JSON report), .github/workflows/nightly.yml (10^6 hands + full differential + bench, nightly and on demand), docs/delivery/reports/wp-06-property-1e6.{md,json}
+Tested:       10^6 random hands (seeds 1–1,000,000): nlhe 374,692 · plo4 250,377 · plo5 125,789 · plo6 124,519 · short deck 124,623; 882,737 showdowns; 9,518,030 legal actions; 2,380,030 illegal attempts rejected; 0 invariants broken; applyAction p50 ≤ 1.24 µs, p99 ≤ 5.62 µs (budget 20 µs); 368 s on the 2-vCPU build VM · 112 engine tests · lint ✓ typecheck ✓ · actionlint ✓
+Done when:    met — 10^6-hand run green; report attached (docs/delivery/reports/wp-06-property-1e6.md)
+Decisions:    nightly vs PR profile; latency sampling
+Open:         reference defect R1 fix (needs approval); run-it-twice, straddle, button blind with table configuration
+Needs you:    push, PR, merge; after merging, the Nightly engine workflow can also be started from the Actions tab (Run workflow)
+Next:         Stage S1 checkpoint — sprint review; then S2: WP-04 contracts, WP-03 local stack, identity, wallet, rng, gateway, table-server
+Hub:          WP-06 → Done, 100%
+
 ## 2026-09-29 — WP-06 slice 2: Pots, rake and showdown   (PR pending)
 Summary for the product owner (Hebrew): המנוע משחק עכשיו יד שלמה עד הסוף: מחזיר הימור שאף אחד לא השווה, בונה קופה ראשית וקופות צד כשיש all-in בגדלים שונים, לוקח rake לפי אחוז עם תקרה (ובלי rake אם אין פלופ), מכריע מי ניצח בכל קופה, מחלק תיקו כולל יחידה אי-זוגית לשחקן הראשון משמאל לדילר, ומחשב את היתרות הסופיות. כל וקטורי הקופות וה-rake עוברים, ו-20,000 ידיים שלמות תואמות למימוש הייחוס עד היחידה האחרונה.
 Built:        packages/engine-poker/src/hand/pots.ts (returnUncalled, buildPots, computeRake, distribute), src/hand/result.ts (handResult, show order, mustShow); TableConfig.rake and straightBeatsTrips; pots/rake vectors harness; settlement differential (Python bridge)

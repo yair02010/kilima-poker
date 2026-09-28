@@ -111,17 +111,6 @@ export function playRandom(seed: number): {
 
 const BRIDGE = fileURLToPath(new URL("./betting_bridge.py", import.meta.url));
 
-/**
- * Known reference defect R1 (docs/delivery/decisions.md): heads-up, poker_reference.Hand gives the action to the
- * button even when posting the small blind (and ante) put them all-in. The engine skips all-in players, as
- * KP-ENG-06 §6.1 requires. Such hands are excluded until the reference is fixed.
- */
-export function referenceDefectR1(c: BettingCase): boolean {
-  if (c.stacks.length !== 2) return false;
-  const buttonPosts = c.sb + (c.bbAnte ? 0 : c.ante);
-  return c.stacks[0]! <= buttonPosts;
-}
-
 export function compareBetting(
   hands: number,
   seed = 1,
@@ -136,13 +125,9 @@ export function compareBetting(
   const ref = JSON.parse(res.stdout) as RefResult[];
   const mismatches: string[] = [];
   let actions = 0;
-  let skipped = 0;
+  const skipped = 0; // reference defects R1/R2 fixed 2026-09-29 — nothing is excluded any more
   played.forEach((p, h) => {
     const r = ref[h]!;
-    if (referenceDefectR1(p.c)) {
-      skipped++;
-      return;
-    }
     actions += p.c.actions.length;
     const where = `hand ${h} ${JSON.stringify(p.c)}`;
     if (r.end?.startsWith("error")) {
