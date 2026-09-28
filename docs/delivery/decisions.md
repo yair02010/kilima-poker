@@ -4,6 +4,7 @@ Small decisions taken during build sessions that do not need an ADR (KP-HBK-23 �
 
 | Date | WP / slice | Decision | Why | Revisit when |
 |---|---|---|---|---|
+| 2026-09-28 | WP-01/3 fix | Runtime base moved from `distroless/nodejs24-debian12` to `distroless/nodejs24-debian13` (build stage `node:24-trixie-slim`). | Trivy blocked the debian12 image: libssl3 3.0.18 with 1 critical + 5 high OpenSSL CVEs (CVE-2026-31789, CVE-2026-45447, CVE-2026-2838x) fixed only in newer packages. | Next Trivy finding on the base |
 | 2026-09-28 | WP-05/1 | Evaluator v0 is combinatorial (best of C(n,5) with an allocation-light 5-card evaluator), not lookup tables. | Measured 4.5 µs per 7-card hand → ≈ 40 µs for a 9-player showdown on the 2-core build VM, inside the 50 µs budget (KP-HBK-11 §7); exact `best5` parity with the reference is trivial this way. Lookup tables remain an optimisation behind the same API. | Benchmark misses budget on CI hardware, or at GA gate |
 | 2026-09-28 | WP-05/1 | Hand value = `strength << 24 \| category << 20 \| tiebreak`; one integer compares hands for any ranking rule. | Fast comparisons; category decodable for display and records. | — |
 | 2026-09-28 | WP-05/1 | Engine packages use `.js` import specifiers (like `shared`); `security/detect-object-injection` is off in `packages/engine-*` (integer array indexes). | Consumers type-check engine sources with their own tsconfig. | — |
